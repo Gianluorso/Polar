@@ -109,6 +109,7 @@ function scene:create( event )
     sceneGroup:insert(background)
     sceneGroup:insert( ground )
     sceneGroup:insert( bear )
+    sceneGroup:insert( platform )
 
     local contorno_bear = {-100,50, -100, -50, 100, -50, 100, 50}
 
@@ -120,6 +121,7 @@ function scene:create( event )
     local function handleButtonEvent( event )
     
         if ( "ended" == event.phase ) then
+            composer.removeScene("scene.game")
             composer.gotoScene( "scene.menu" )
         end
     end
@@ -156,17 +158,27 @@ end
 
 function scene:hide( event )
 
+    print("hiding")
 end
 
 function scene:destroy( event )
     local sceneGroup = self.view
+
+    print("destroying")
+
     if background then
-	background:removeSelf()	-- widgets must be manually removed
-	background = nil
-	end
+        background:removeSelf()
+        background = nil
+    end
+    
     if ground then
-		ground:removeSelf()	-- widgets must be manually removed
+		ground:removeSelf()
 		ground = nil
+    end
+
+    if bear then
+		bear:removeSelf()
+		bear = nil
     end
 
     if bearSheet then
@@ -174,14 +186,20 @@ function scene:destroy( event )
 		bearSheet = nil
     end
 
-    if bear then
-        bearSheet:removeSelf()
-		bearSheet = nil
+    if platform then
+        platform:removeSelf()
+		platform = nil
     end
-        if reset then
-		reset:removeSelf()	-- widgets must be manually removed
+    
+    if reset then
+		reset:removeSelf()
 		reset = nil
     end
+
+    physics.stop()
+
+    sceneGroup:removeSelf()
+    sceneGroup = nil
 end
 
 
