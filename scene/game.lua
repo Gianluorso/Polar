@@ -2,7 +2,7 @@ local composer = require( "composer" )
 local widget = require( "widget" )
 local physics= require "physics"
 physics.start()
-physics.setDrawMode("hybrid")
+--physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local background
@@ -133,8 +133,8 @@ function scene:create( event )
             emboss = false,
             -- Properties for a rounded rectangle button
             shape = "roundedRect",
-            width = 300,
-            height = 100,
+            width = 150,
+            height = 70,
             cornerRadius = 45,
             fillColor = { default={0.157,0.949,1,1}, over={0.275, 0.847, 1} },
             strokeColor = { default={1,1,1}, over={1,1,1} },
@@ -144,8 +144,8 @@ function scene:create( event )
             
         }
     )
-    reset.x = display.contentCenterX
-    reset.y = display.contentCenterY
+    reset.x = 800
+    reset.y = 100
     
    
     sceneGroup:insert( reset )
