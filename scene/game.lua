@@ -175,9 +175,10 @@ function scene:destroy( event )
     end
 
     if bear then
-        bearSheet:removeSelf()
-		bearSheet = nil
+        bear:removeSelf()
+		bear = nil
     end
+        
         if reset then
 		reset:removeSelf()	-- widgets must be manually removed
 		reset = nil
