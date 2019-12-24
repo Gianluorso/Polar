@@ -28,7 +28,7 @@ local function sensorCollide( self, event )
 end
 
 function scene:create( event )
-     
+    physics.start()
     local sceneGroup = self.view
     local background=display.newImageRect("img/background.jpg", display.contentWidth*2, display.contentHeight*2)
     background.x = display.contentWidth/2
@@ -158,13 +158,14 @@ end
 
 function scene:hide( event )
 
-    print("hiding")
 end
 
 function scene:destroy( event )
     local sceneGroup = self.view
 
-    print("destroying")
+    --Removes all the runtime event listeners
+    Runtime._functionListeners = nil
+  
 
     if background then
         background:removeSelf()
