@@ -25,27 +25,32 @@ local background
 local ground
 local bearSheet
 local bear
-
+local runMusicChannel
+local runMusicStarted = false
 
 -- bearSheet collision handler
 local function sensorCollide( self, event )
  
     -- Confirm that the colliding elements are the foot sensor and a ground object
     if ( event.selfElement == 2 and event.other.objType == "ground" ) then
+        if (not runMusicStarted) then
+            runMusicChannel = audio.play( runMusic, { loops=-1 }  )
+            runMusicStarted = true
+        end        
  
         -- Foot sensor has entered (overlapped) a ground object
         if ( event.phase == "began" ) then
             self.sensorOverlaps = self.sensorOverlaps + 1
+            audio.resume(runMusicChannel)
         -- Foot sensor has exited a ground object
         elseif ( event.phase == "ended" ) then
             self.sensorOverlaps = self.sensorOverlaps - 1
+            audio.pause(runMusicChannel)
         end
     end
 end
 
 function scene:create( event )
-
-    local runMusicChannel = audio.play( runMusic, { loops=-1 }  ) 
 
     physics.start()
     local sceneGroup = self.view
@@ -116,11 +121,7 @@ function scene:create( event )
 
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
-            audio.pause(runMusicChannel)
-            local function resumeAudio( event )
-                audio.resume(runMusicChannel) 
-            end
-            audio.play( jumpMusic, { onComplete=resumeAudio } )
+            audio.play( jumpMusic )
             bear.gravityScale = 4 
             bear:setLinearVelocity(20,-800)
         elseif (event.phase == "ended") then
