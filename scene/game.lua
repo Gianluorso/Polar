@@ -3,7 +3,7 @@ local widget = require( "widget" )
 local physics= require "physics"
 
 audio.play(backgroundMusic)
-audio.setVolume( 0.1 )
+audio.setVolume( 0.05 )
 --local function run(onTouch)
 --audio.play(soundTable["ice"],{loops=-1}) 
  --   if (event.phase=="began"); 
@@ -134,12 +134,16 @@ function scene:create( event )
     sceneGroup:insert( ground )
     sceneGroup:insert( bear )
     sceneGroup:insert( platform )
-
-    local morte = display.newRect( 650, 350, 250, 450 )
+    
+    local morte = display.newRect( -150, 350, 250, 450 )
     morte:setFillColor( 1, 0, 0, 0.6 )
-    morte.isVisible = false
-    morte.objType = "ground"
-    physics.addBody( morte, "static", { bounce=0.0, friction=0.3 } )
+    morte.isVisible = true
+
+    local limiteavanti = display.newRect( 1050, 350, 250, 450 )
+    limiteavanti:setFillColor( 1, 0, 0, 0.6 )
+    limiteavanti.isVisible = false
+    limiteavanti.objType = "ground"
+    physics.addBody( limiteavanti, "static", { bounce=0.0, friction=0.3 } )
 
     local contorno_bear = {-100,50, -100, -50, 100, -50, 100, 50}
     physics.addBody( 
