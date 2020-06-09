@@ -1,3 +1,11 @@
+backgroundMusic = audio.loadStream("sound/background.mp3")
+
+soundTable = {
+ 
+    jump = audio.loadSound( "sound/jump.mp3" ),
+    click = audio.loadSound( "sound/click.mp3" ),
+    ice = audio.loadSound( "sound/ice.mp3" ),
+}
 local composer = require "composer"
 
 display.setStatusBar(display.HiddenStatusBar)

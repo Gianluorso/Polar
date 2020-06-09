@@ -1,7 +1,17 @@
 local composer = require( "composer" )
 local widget = require( "widget" )
 local physics= require "physics"
-local backgroundMusic = audio.loadStream("sound/background.mp3")
+
+--audio.play(backgroundMusic)
+--audio.setVolume( 0.5 )
+audio.play(soundTable["ice"],{loops=-1})
+audio.setVolume( 0.5 )
+
+function onTouch(event)
+    if (event.phase == "began") then 
+        audio.play(soundTable["jump"]);
+    end
+end
 physics.start()
 --physics.setDrawMode("hybrid")
 
@@ -10,7 +20,6 @@ local background
 local ground
 local bearSheet
 local bear
-
 
 
 -- bearSheet collision handler
@@ -204,7 +213,6 @@ function scene:destroy( event )
     sceneGroup:removeSelf()
     sceneGroup = nil
 end
-
 
 
 -- Scene listener setup
