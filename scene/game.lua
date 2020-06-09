@@ -135,9 +135,11 @@ function scene:create( event )
     sceneGroup:insert( bear )
     sceneGroup:insert( platform )
 
-    local rect2 = display.newRect( 150, 100, 50, 50 )
-    rect2:setFillColor( 1, 0, 0, 0.6 )
-    rect2.isVisible = true
+    local morte = display.newRect( 650, 350, 250, 450 )
+    morte:setFillColor( 1, 0, 0, 0.6 )
+    morte.isVisible = false
+    morte.objType = "ground"
+    physics.addBody( morte, "static", { bounce=0.0, friction=0.3 } )
 
     local contorno_bear = {-100,50, -100, -50, 100, -50, 100, 50}
     physics.addBody( 
