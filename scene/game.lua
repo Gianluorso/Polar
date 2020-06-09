@@ -2,16 +2,21 @@ local composer = require( "composer" )
 local widget = require( "widget" )
 local physics= require "physics"
 
---audio.play(backgroundMusic)
---audio.setVolume( 0.5 )
-audio.play(soundTable["ice"],{loops=-1})
-audio.setVolume( 0.5 )
+audio.play(backgroundMusic)
+audio.setVolume( 0.1 )
+--local function run(onTouch)
+--audio.play(soundTable["ice"],{loops=-1}) 
+ --   if (event.phase=="began"); 
+ --   then 
+--        audio.stop(soundTable["ice"]);
+  --  end
+--end
 
-function onTouch(event)
-    if (event.phase == "began") then 
-        audio.play(soundTable["jump"]);
-    end
-end
+--function onTouch(event)
+ --   if (event.phase == "began") then 
+  --      audio.play(soundTable["jump"]);
+ --   end
+--end
 physics.start()
 --physics.setDrawMode("hybrid")
 
