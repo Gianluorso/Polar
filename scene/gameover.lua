@@ -25,7 +25,7 @@ function scene:create( event )
     
     local playAgainButton = widget.newButton(
         {
-            label = "Play",
+            label = "Rigioca",
             onEvent = handleButtonEvent,
             emboss = false,
             -- Properties for a rounded rectangle button
