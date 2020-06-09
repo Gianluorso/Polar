@@ -2,6 +2,7 @@ local composer = require( "composer" )
 local widget = require( "widget" )
 local physics= require "physics"
 
+
 audio.play(backgroundMusic)
 audio.setVolume( 0.05 )
 --local function run(onTouch)
@@ -68,12 +69,13 @@ function scene:create( event )
     --Platform
     local platform = display.newImage("img/platform.png")
     platform.x = 1000
-    platform.y = 500
+    platform.y = 400
     
     platform:setFillColor( 1, 1, 1 )
     platform.objType = "ground"
     physics.addBody( platform, "kinematic", { bounce=0.0, friction=0.3, shape = { -60*3,15, 60*3,15, 60*3,-15, -60*3,-15 } } )
     platform.xScale=3
+
     --Platform Movement
     local function movePlatform(firstTime)
         local transitionTime = 1500
@@ -82,7 +84,7 @@ function scene:create( event )
             transitionTime = transitionTime + 2000 --aggiungo 2s
             platform.x = platform.x + 2000 --aggiungo un po' di distanza
         end
-        transition.to(platform, {x = -100, time = transitionTime, onComplete = 
+        transition.to(platform, {x = -300, time = transitionTime, onComplete = 
         function()
             platform.y = 450 + math.random(100)
             platform.x = 1000
@@ -90,7 +92,6 @@ function scene:create( event )
         end})
     end
     movePlatform(true)
-    
 
 
     local opt = { numFrames=8, width=512, height=512 }
@@ -134,16 +135,22 @@ function scene:create( event )
     sceneGroup:insert( ground )
     sceneGroup:insert( bear )
     sceneGroup:insert( platform )
-    
+
     local morte = display.newRect( -150, 350, 250, 450 )
     morte:setFillColor( 1, 0, 0, 0.6 )
     morte.isVisible = true
 
-    local limiteavanti = display.newRect( 1050, 350, 250, 450 )
+    local limiteavanti = display.newRect( 1050, 350, 250, 650 )
     limiteavanti:setFillColor( 1, 0, 0, 0.6 )
     limiteavanti.isVisible = false
     limiteavanti.objType = "ground"
     physics.addBody( limiteavanti, "static", { bounce=0.0, friction=0.3 } )
+
+    local limitealto = display.newRect(600, -20, 800, 50 )
+    limitealto:setFillColor( 1, 0, 0, 0.6 )
+    limitealto.isVisible = false
+    limitealto.objType = "ground"
+    physics.addBody( limitealto, "static", { bounce=0.0, friction=0.3 } )
 
     local contorno_bear = {-100,50, -100, -50, 100, -50, 100, 50}
     physics.addBody( 
