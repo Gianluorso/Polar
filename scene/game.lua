@@ -1,6 +1,7 @@
 local composer = require( "composer" )
 local widget = require( "widget" )
 local physics= require "physics"
+local backgroundMusic = audio.loadStream("sound/background.mp3")
 physics.start()
 --physics.setDrawMode("hybrid")
 
@@ -9,6 +10,7 @@ local background
 local ground
 local bearSheet
 local bear
+
 
 
 -- bearSheet collision handler
