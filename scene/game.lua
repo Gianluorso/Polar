@@ -129,15 +129,22 @@ function scene:create( event )
         end
     end
 
+    --controllo ad ogni frame se il giocatore e' rimasto indietro
+    local function on_frame( event )
+        if (bear.x < -150) then
+            audio.stop(runMusicChannel)
+            composer.removeScene("scene.game")
+            composer.gotoScene( "scene.gameover" )
+        end
+    end 
+    
+    Runtime:addEventListener( "enterFrame", on_frame )
+
     Runtime:addEventListener("touch", onTouch)
     sceneGroup:insert(background)
     sceneGroup:insert( ground )
     sceneGroup:insert( bear )
     sceneGroup:insert( platform )
-    
-    local morte = display.newRect( -150, 350, 250, 450 )
-    morte:setFillColor( 1, 0, 0, 0.6 )
-    morte.isVisible = true
 
     local limiteavanti = display.newRect( 1050, 350, 250, 450 )
     limiteavanti:setFillColor( 1, 0, 0, 0.6 )
