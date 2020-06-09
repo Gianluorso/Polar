@@ -18,7 +18,7 @@ audio.setVolume( 0.1 )
  --   end
 --end
 physics.start()
---physics.setDrawMode("hybrid")
+physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local background
@@ -115,7 +115,7 @@ function scene:create( event )
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
             
             bear.gravityScale = 4 
-            bear:setLinearVelocity(0,-800)
+            bear:setLinearVelocity(20,-800)
         elseif (event.phase == "ended") then
             bear.gravityScale= 10
         end
@@ -127,8 +127,11 @@ function scene:create( event )
     sceneGroup:insert( bear )
     sceneGroup:insert( platform )
 
-    local contorno_bear = {-100,50, -100, -50, 100, -50, 100, 50}
+    local rect2 = display.newRect( 150, 100, 50, 50 )
+    rect2:setFillColor( 1, 0, 0, 0.6 )
+    rect2.isVisible = true
 
+    local contorno_bear = {-100,50, -100, -50, 100, -50, 100, 50}
     physics.addBody( 
         bear,"dinamic",{shape=contorno_bear},  -- Main body element
         { box={ halfWidth=100, halfHeight=10, x=0, y=60 }, isSensor=true }  -- Foot sensor element
