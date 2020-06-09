@@ -44,6 +44,9 @@ local function sensorCollide( self, event )
 end
 
 function scene:create( event )
+
+    local runMusicChannel = audio.play( runMusic, { loops=-1 }  ) 
+
     physics.start()
     local sceneGroup = self.view
     local background=display.newImageRect("img/background.jpg", display.contentWidth*2, display.contentHeight*2)
@@ -113,7 +116,11 @@ function scene:create( event )
 
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
-            
+            audio.pause(runMusicChannel)
+            local function resumeAudio( event )
+                audio.resume(runMusicChannel) 
+            end
+            audio.play( jumpMusic, { onComplete=resumeAudio } )
             bear.gravityScale = 4 
             bear:setLinearVelocity(0,-800)
         elseif (event.phase == "ended") then
@@ -137,6 +144,7 @@ function scene:create( event )
     local function handleButtonEvent( event )
     
         if ( "ended" == event.phase ) then
+            audio.stop(runMusicChannel)
             composer.removeScene("scene.game")
             composer.gotoScene( "scene.menu" )
         end

@@ -1,4 +1,6 @@
 backgroundMusic = audio.loadStream("sound/background.mp3")
+jumpMusic = audio.loadStream("sound/jump.mp3")
+runMusic = audio.loadStream("sound/ice.mp3")
 
 soundTable = {
  
