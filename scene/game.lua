@@ -83,6 +83,16 @@ function scene:create(event)
     sfondo1_next.x = 0
     sfondo1_next.y = display.contentHeight - sfondo1_next.height
 
+    local function scroller2(self, event)
+        local speed = 2
+
+        if self.x < -(display.contentWidth + 200 - speed * 2) then
+            self.x = display.contentWidth - 200
+        else
+            self.x = self.x - speed
+        end
+    end
+
     local function scroller(self, event)
         local speed = 3
 
@@ -242,9 +252,9 @@ function scene:create(event)
             composer.gotoScene("scene.gameover")
         end
     end
-    sfondo2.enterFrame = scroller
+    sfondo2.enterFrame = scroller2
     Runtime:addEventListener("enterFrame", sfondo2)
-    sfondo2_next.enterFrame = scroller
+    sfondo2_next.enterFrame = scroller2
     Runtime:addEventListener("enterFrame", sfondo2_next)
     Runtime:addEventListener("enterFrame", on_frame)
 
