@@ -246,7 +246,7 @@ function scene:create(event)
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -150) then
             audio.stop(runMusicChannel)
-           -- audio.stop()
+           audio.stop()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
