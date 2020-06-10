@@ -176,9 +176,6 @@ function scene:create( event )
             local function hideText( event )
                 isTextShown = false
                 display.remove(flipTextShown)
-                textR = 1
-                textG = 1
-                textB = 1
             end
                 
             timer.performWithDelay( 2000, hideText )
