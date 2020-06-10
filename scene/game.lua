@@ -5,19 +5,7 @@ local physics= require "physics"
 
 audio.play(backgroundMusic)
 audio.setVolume( 0.05 )
---local function run(onTouch)
---audio.play(soundTable["ice"],{loops=-1}) 
- --   if (event.phase=="began"); 
- --   then 
---        audio.stop(soundTable["ice"]);
-  --  end
---end
 
---function onTouch(event)
- --   if (event.phase == "began") then 
-  --      audio.play(soundTable["jump"]);
- --   end
---end
 physics.start()
 --physics.setDrawMode("hybrid")
 
@@ -323,7 +311,7 @@ function scene:destroy( event )
 
     --Removes all the runtime event listeners
     Runtime._functionListeners = nil
-  
+audio.stop(backgroundMusic)
 
     if background then
         background:removeSelf()
