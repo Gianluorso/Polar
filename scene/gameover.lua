@@ -34,7 +34,7 @@ function scene:create( event )
             width = 300,
             height = 100,
             cornerRadius = 45,
-            fillColor = { default={0.157,0.949,1,1}, over={0.275, 0.847, 1} },
+            fillColor = { default={0.133, 0.498, 0.788, 1}, over={0.275, 0.847, 1} },
             strokeColor = { default={1,1,1}, over={1,1,1} },
             strokeWidth = 0,
             labelColor = { default={ 1, 1, 1 }, over={ 1, 1, 1, 1 } },
