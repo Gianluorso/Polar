@@ -165,38 +165,29 @@ function scene:create(event)
         return newPlatform
     end
 
-    local platform = createPlatform(3, 1000, 400)
-    local platform2 = createPlatform(10, -100, 500)
+    local platformNormal = createPlatform(3, 3000, 400)
+    local platformSmall = createPlatform(2, 1000, 500)
+    local platformBig = createPlatform(4, 2000, 300)
 
     -- Platform Movement
-    local function movePlatform(platform, firstTime)
-        local distance = math.abs(platform.x) + 300
-        local transitionTime = (15/13) * distance
-        if (firstTime) then
-            firstTime = false
-            transitionTime = transitionTime + 2000 -- aggiungo 2s
-            platform.x = platform.x + 2000 -- aggiungo un po' di distanza
-            physics.removeBody(platform)
-            scale = 3
-            physics.addBody(platform, "kinematic", {
-                bounce = 0.0,
-                friction = 0.3,
-                shape = {-60 * scale, 15, 60 * scale, 15, 60 * scale, -15, -60 * scale, -15}
-            })
-            platform.xScale = scale
-        end
+    local function movePlatform(platform)
+        local distance = math.abs(platform.x) + 1000
+        local transitionTime = distance
+
         transition.to(platform, {
-            x = -300,
+            x = -1000,
             time = transitionTime,
             onComplete = function()
                 platform.y = 450 + math.random(100)
-                platform.x = 1000
-                movePlatform(platform, false)
+                platform.x = 2000
+                movePlatform(platform)
             end
         })
     end
-    movePlatform(platform, true)
-    movePlatform(platform2, true)
+
+    movePlatform(platformNormal)
+    movePlatform(platformSmall)
+    movePlatform(platformBig)
 
     local opt = {numFrames = 8, width = 512, height = 512}
     local bearSheet = graphics.newImageSheet("img/bear.png", opt)
@@ -340,8 +331,9 @@ function scene:create(event)
     sceneGroup:insert(ground)
     sceneGroup:insert(ground_next)
     sceneGroup:insert(bear)
-    sceneGroup:insert(platform)
-    sceneGroup:insert(platform2)
+    sceneGroup:insert(platformNormal)
+    sceneGroup:insert(platformSmall)
+    sceneGroup:insert(platformBig)
 
     local limiteavanti = display.newRect(1050, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
