@@ -23,31 +23,8 @@ physics.start()
 
 local scene = composer.newScene()
 local background
-local sfondo1 = display.newImageRect("img/sfondo1.png",1920,1080)
-sfondo1.anchorX = 0
-sfondo1.anchorY = 0
-sfondo1.x = display.contentWidth
-sfondo1.y = display.contentHeight-sfondo1.height
-local sfondo1_next = display.newImageRect("img/sfondo1.png",1920,1080)
-sfondo1_next.anchorX = 0
-sfondo1_next.anchorY = 0
-sfondo1_next.x = 0
-sfondo1_next.y = display.contentHeight-sfondo1_next.height
-
-
-local function scroller(self, event)
-	local speed =2
-	if self.x < -(display.contentWidth-speed*2) then
-		self.x = display.contentWidth
-	else 
-		self.x = self.x - speed
-	end
-end
-sfondo1.enterFrame = scroller 
-Runtime:addEventListener( "enterFrame", sfondo1 )
-sfondo1_next.enterFrame = scroller 
-Runtime:addEventListener( "enterFrame", sfondo1_next )
------
+local sfondo1
+--[[
 local sfondo2 = display.newImageRect("img/sfondo2.png",1920,1080)
 sfondo2.anchorX = 0
 sfondo2.anchorY = 0
@@ -71,7 +48,7 @@ end
 sfondo2.enterFrame = scroller 
 Runtime:addEventListener( "enterFrame", sfondo2)
 sfondo2_next.enterFrame = scroller 
-Runtime:addEventListener( "enterFrame", sfondo2_next )
+Runtime:addEventListener( "enterFrame", sfondo2_next )]]--
 local ground
 local bearSheet
 local bear
@@ -109,8 +86,32 @@ function scene:create( event )
     local sceneGroup = self.view
     local background=display.newImageRect("img/background.jpg", display.contentWidth*2, display.contentHeight*2)
     background.x = display.contentWidth/2
-    background.y = display.contentHeight/2
-   
+    background.y = display.contentHeight
+
+
+    local sfondo1 = display.newImageRect("img/sfondo1.png",1920,1080)
+sfondo1.anchorX = 0
+sfondo1.anchorY = 0
+sfondo1.x = display.contentWidth
+sfondo1.y = display.contentHeight-sfondo1.height
+local sfondo1_next = display.newImageRect("img/sfondo1.png",1920,1080)
+sfondo1_next.anchorX = 0
+sfondo1_next.anchorY = 0
+sfondo1_next.x = 0
+sfondo1_next.y = display.contentHeight-sfondo1_next.height
+
+
+local function scroller(self, event)
+	local speed =2
+	if self.x < -(display.contentWidth-speed*2) then
+		self.x = display.contentWidth
+	else 
+		self.x = self.x - speed
+	end
+end
+
+
+
     local ground = display.newImage("img/ground.png")
     ground.x = 160
     ground.y = 700
@@ -244,11 +245,15 @@ function scene:create( event )
             composer.gotoScene( "scene.gameover" )
         end
     end 
-    
+    sfondo1.enterFrame = scroller 
+    Runtime:addEventListener( "enterFrame", sfondo1 )
+    sfondo1_next.enterFrame = scroller 
+    Runtime:addEventListener( "enterFrame", sfondo1_next )
     Runtime:addEventListener( "enterFrame", on_frame )
 
     Runtime:addEventListener("touch", onTouch)
     sceneGroup:insert(background)
+    sceneGroup:insert( sfondo1 )
     sceneGroup:insert( ground )
     sceneGroup:insert( bear )
     sceneGroup:insert( platform )
@@ -324,6 +329,10 @@ function scene:destroy( event )
     if background then
         background:removeSelf()
         background = nil
+    end
+    if sfondo1 then
+        sfondo1:removeSelf()
+        sfondo1 = nil
     end
     
     if ground then
