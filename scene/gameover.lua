@@ -9,7 +9,7 @@ local playAgainButton
 
 function scene:create( event )
 	local sceneGroup = self.view
-    local background=display.newImageRect("img/background.jpg", display.contentWidth*2, display.contentHeight*2)
+    local background=display.newImageRect("img/background.jpg", display.contentWidth*1.5, display.contentHeight*1.5)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 
@@ -26,6 +26,7 @@ function scene:create( event )
     local playAgainButton = widget.newButton(
         {
             label = "Rigioca",
+            fontSize =30,
             onEvent = handleButtonEvent,
             emboss = false,
             -- Properties for a rounded rectangle button

@@ -9,7 +9,7 @@ local playButton
 
 function scene:create( event )
 	local sceneGroup = self.view
-    local background=display.newImageRect("img/background.jpg", display.contentWidth*2, display.contentHeight*2)
+    local background=display.newImageRect("img/background.jpg", display.contentWidth*1.5, display.contentHeight*1.5)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 
@@ -22,15 +22,15 @@ function scene:create( event )
             composer.gotoScene( "scene.game" )
         end
     end
-    local title = display.newText( "Polar", display.contentCenterX, 150, native.systemFontBold, 128)
+    local title = display.newText( "POLAR", display.contentCenterX, 150, native.systemFontBold, 128)
     
     title:setFillColor( 1, 1, 1 )
-   -- title:stroke (paint)
-   -- title:strokeWidth (4)
+
     
     local playButton = widget.newButton(
         {
             label = "Play",
+            fontSize =40,
             onEvent = handleButtonEvent,
             emboss = false,
             -- Properties for a rounded rectangle button
