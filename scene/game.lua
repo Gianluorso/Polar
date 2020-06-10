@@ -123,12 +123,29 @@ function scene:create(event)
         end
     end
 
-    local ground = display.newImage("img/ground.png")
+    local ground = display.newImageRect("img/ground.png",
+                                         160, 700)
+    ground.anchorX = 0
+    ground.anchorY = 0
+    ground.x = display.contentWidth - 200
+    ground.y = display.contentHeight - ground.height
+    local ground_next = display.newImageRect("img/ground.png",
+                                              160,700)
+                                                  
+
+    ground_next.anchorX = 0
+    ground_next.anchorY = 0
+    ground_next.x = - 200
+    ground_next.y = display.contentHeight - ground_next.height
+
+
+
+    --[[local ground = display.newImage("img/ground.png")
     ground.x = 160
     ground.y = 700
-    ground:setFillColor(1, 1, 1)
-    ground.objType = "ground"
-    physics.addBody(ground, "static", {bounce = 0.0, friction = 0.3})
+        ground.objType = "ground"
+    physics.addBody(ground, "static", {bounce = 0.0, friction = 0.3})]]--
+    
 
     -- Platform
     local platform = display.newImage("img/platform.png")
@@ -290,6 +307,12 @@ function scene:create(event)
     Runtime:addEventListener("enterFrame", sfondo1_next)
     Runtime:addEventListener("enterFrame", on_frame)
 
+    ground.enterFrame = scroller
+    Runtime:addEventListener("enterFrame", ground)
+    ground_next.enterFrame = scroller
+    Runtime:addEventListener("enterFrame", ground_next)
+    Runtime:addEventListener("enterFrame", on_frame)
+
     Runtime:addEventListener("touch", onTouch)
     sceneGroup:insert(sfondo3)
     sceneGroup:insert(sfondo3_next)
@@ -298,6 +321,7 @@ function scene:create(event)
     sceneGroup:insert(sfondo1)
     sceneGroup:insert(sfondo1_next)
     sceneGroup:insert(ground)
+    sceneGroup:insert(ground_next)
     sceneGroup:insert(bear)
     sceneGroup:insert(platform)
 
@@ -391,6 +415,10 @@ function scene:destroy(event)
     if ground then
         ground:removeSelf()
         ground = nil
+    end
+        if ground_next then
+        ground_next:removeSelf()
+        ground_next = nil
     end
 
     if bear then
