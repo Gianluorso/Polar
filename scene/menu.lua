@@ -12,7 +12,21 @@ function scene:create( event )
     local background=display.newImageRect("img/background.jpg", display.contentWidth*2, display.contentHeight*2)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
-
+local myTextField = widget.newTextField(
+   {
+   top = 10,
+   left = 20,
+   width = 200,
+   height = 30,
+   cornerRadius = 8,
+   strokeWidth = 3,
+   backgroundColor = { 1, 1, 1 },
+   strokeColor = { 0, 0, 0 },
+   font = "Helvetica",
+   fontSize = 24,
+   listener = textFieldHandler
+   }
+)
 
 
     -- Function to handle button events
@@ -22,7 +36,11 @@ function scene:create( event )
             composer.gotoScene( "scene.game" )
         end
     end
+    local myText = display.newText( "Polar", 0, 0, native.systemFont, 64 )
+    myText.x = display.contentWidth/2-20 ; myText.y = 50
     
+    myText:setFillColor( 1, 1, 1 )
+    myText.anchorX = 0
     local playButton = widget.newButton(
         {
             label = "Play",

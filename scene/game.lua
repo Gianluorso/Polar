@@ -124,6 +124,15 @@ function scene:create(event)
             self.x = self.x - speed
         end
     end
+    local function scroller4(self, event)
+        local speed = 6
+
+        if self.x < -(display.contentWidth + 200 - speed * 2) then
+            self.x = display.contentWidth - 200
+        else
+            self.x = self.x - speed
+        end
+    end
 
     local ground = display.newImageRect("img/ground.png", display.contentWidth * 2, display.contentHeight)
     ground.anchorX = 0
@@ -324,9 +333,9 @@ function scene:create(event)
     Runtime:addEventListener("enterFrame", sfondo1_next)
     Runtime:addEventListener("enterFrame", on_frame)
 
-    ground.enterFrame = scroller2
+    ground.enterFrame = scroller4
     Runtime:addEventListener("enterFrame", ground)
-    ground_next.enterFrame = scroller2
+    ground_next.enterFrame = scroller4
     Runtime:addEventListener("enterFrame", ground_next)
     Runtime:addEventListener("enterFrame", on_frame)
 
