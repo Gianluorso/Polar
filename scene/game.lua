@@ -124,13 +124,13 @@ function scene:create(event)
     end
 
     local ground = display.newImageRect("img/ground.png",
-                                         1100, 160)
+                                         1100, 70)
     ground.anchorX = 0
     ground.anchorY = 0
     ground.x = display.contentWidth - 200
     ground.y = display.contentHeight - ground.height
     local ground_next = display.newImageRect("img/ground.png",
-                                              1100,160)
+                                              1100,70)
                                                   
 
     ground_next.anchorX = 0
@@ -281,7 +281,7 @@ function scene:create(event)
         end
 
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
-        if (bear.x < -150) then
+        if (bear.x < -600) then
             audio.stop(runMusicChannel)
            audio.stop()
             if (isTextShown) then display.remove(flipTextShown) end
@@ -337,7 +337,7 @@ function scene:create(event)
     limitealto.objType = "ground"
     physics.addBody(limitealto, "static", {bounce = 0.0, friction = 0.3})
 
-    local limitebasso = display.newRect(display.contentWidth/2, 500, 1200, 50)
+    local limitebasso = display.newRect(display.contentWidth/2, 600, 1700, 50)
     limitebasso:setFillColor(1, 0, 0, 0.6)
     limitebasso.isVisible = false
     limitebasso.objType = "ground"
