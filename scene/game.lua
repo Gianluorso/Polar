@@ -174,23 +174,35 @@ function scene:create(event)
         return newPlatform
     end
 
-    local platformNormal = createPlatform(3, 3000, 400)
-    local platformSmall = createPlatform(2, 2000, 450)
-    local platformBig = createPlatform(4, 1000, 500)
+    local platformDistance = 600
+
+    local platformNormal = createPlatform(3, platformDistance * 3, 400)
+    local platformSmall = createPlatform(2, platformDistance * 2, 450)
+    local platformBig = createPlatform(4, platformDistance, display.contentCenterY + 100)
     --speed of platforms
-    local platformSpeed = 1.2
+    local platformSpeed = 1.5
+
+    local function incrementSpeedAndDistance()
+        if(platformSpeed > .3) then
+            platformSpeed =  platformSpeed - 0.005
+        end
+        if(platformDistance < 1000) then
+            platformDistance = platformDistance + 5
+        end
+    end
 
     -- Platform Movement
     local function movePlatform(platform)
-        local distance = (math.abs(platform.x) + 1000) * platformSpeed
+        local distance = (math.abs(platform.x) + platformDistance) * platformSpeed
         local transitionTime = distance
 
         transition.to(platform, {
-            x = -1000,
+            x = -platformDistance,
             time = transitionTime,
             onComplete = function()
                 platform.y = 450 + math.random(100)
-                platform.x = 2000
+                platform.x = platformDistance * 2
+                incrementSpeedAndDistance()
                 movePlatform(platform)
             end
         })
