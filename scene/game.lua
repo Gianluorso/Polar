@@ -9,7 +9,7 @@ physics.start()
 -- physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
-local background
+local sfondo3
 local sfondo2
 local sfondo1
 
@@ -47,11 +47,21 @@ function scene:create(event)
 
     physics.start()
     local sceneGroup = self.view
-    local background = display.newImageRect("img/background.jpg",
-                                            display.contentWidth * 2,
-                                            display.contentHeight * 2)
-    background.x = display.contentWidth / 2
-    background.y = display.contentHeight
+
+    local sfondo3 = display.newImageRect("img/sfondo3.png",
+                                         display.contentWidth * 2,
+                                         display.contentHeight)
+    sfondo3.anchorX = 0
+    sfondo3.anchorY = 0
+    sfondo3.x = display.contentWidth
+    sfondo3.y = display.contentHeight - sfondo3.height
+    local sfondo3_next = display.newImageRect("img/sfondo3.png",
+                                              display.contentWidth * 2,
+                                              display.contentHeight)
+    sfondo3_next.anchorX = 0
+    sfondo3_next.anchorY = 0
+    sfondo3_next.x = 0
+    sfondo3_next.y = display.contentHeight - sfondo3_next.height
 
     local sfondo2 = display.newImageRect("img/sfondo2.png",
                                          display.contentWidth * 2,
@@ -82,6 +92,16 @@ function scene:create(event)
     sfondo1_next.anchorY = 0
     sfondo1_next.x = 0
     sfondo1_next.y = display.contentHeight - sfondo1_next.height
+
+    local function scroller3(self, event)
+        local speed = 1
+
+        if self.x < -(display.contentWidth + 200 - speed * 2) then
+            self.x = display.contentWidth - 200
+        else
+            self.x = self.x - speed
+        end
+    end
 
     local function scroller2(self, event)
         local speed = 2
@@ -252,6 +272,12 @@ function scene:create(event)
             composer.gotoScene("scene.gameover")
         end
     end
+    sfondo3.enterFrame = scroller3
+    Runtime:addEventListener("enterFrame", sfondo3)
+    sfondo3_next.enterFrame = scroller3
+    Runtime:addEventListener("enterFrame", sfondo3_next)
+    Runtime:addEventListener("enterFrame", on_frame)
+
     sfondo2.enterFrame = scroller2
     Runtime:addEventListener("enterFrame", sfondo2)
     sfondo2_next.enterFrame = scroller2
@@ -265,7 +291,8 @@ function scene:create(event)
     Runtime:addEventListener("enterFrame", on_frame)
 
     Runtime:addEventListener("touch", onTouch)
-    sceneGroup:insert(background)
+    sceneGroup:insert(sfondo3)
+    sceneGroup:insert(sfondo3_next)
     sceneGroup:insert(sfondo2)
     sceneGroup:insert(sfondo2_next)
     sceneGroup:insert(sfondo1)
@@ -336,9 +363,13 @@ function scene:destroy(event)
     -- Removes all the runtime event listeners
     Runtime._functionListeners = nil
 
-    if background then
-        background:removeSelf()
-        background = nil
+    if sfondo3 then
+        sfondo3:removeSelf()
+        sfondo3 = nil
+    end
+    if sfondo3_next then
+        sfondo3_next:removeSelf()
+        sfondo3_next = nil
     end
     if sfondo2 then
         sfondo2:removeSelf()
