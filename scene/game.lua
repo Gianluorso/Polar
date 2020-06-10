@@ -69,7 +69,7 @@ function scene:create(event)
     sfondo2_next.y = display.contentHeight - sfondo2_next.height
 
     local function scroller(self, event)
-        local speed = 2
+        local speed = 1
 
         if self.x < -(display.contentWidth - speed * 2) then
             self.x = display.contentWidth
@@ -239,12 +239,18 @@ function scene:create(event)
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -150) then
             audio.stop(runMusicChannel)
-            audio.stop()
+           -- audio.stop()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
         end
     end
+    sfondo2.enterFrame = scroller
+    Runtime:addEventListener("enterFrame", sfondo2)
+    sfondo2_next.enterFrame = scroller
+    Runtime:addEventListener("enterFrame", sfondo2_next)
+    Runtime:addEventListener("enterFrame", on_frame)
+
     sfondo1.enterFrame = scroller
     Runtime:addEventListener("enterFrame", sfondo1)
     sfondo1_next.enterFrame = scroller
