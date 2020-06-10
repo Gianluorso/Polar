@@ -23,16 +23,16 @@ physics.start()
 
 local scene = composer.newScene()
 local background
-local sfondo = display.newImageRect("img/sfondo2.png",1920,1080)
-sfondo.anchorX = 0
-sfondo.anchorY = 0
-sfondo.x = display.contentWidth
-sfondo.y = display.contentHeight-sfondo.height
-local sfondo_next = display.newImageRect("img/sfondo2.png",1920,1080)
-sfondo_next.anchorX = 0
-sfondo_next.anchorY = 0
-sfondo_next.x = 0
-sfondo_next.y = display.contentHeight-sfondo_next.height
+local sfondo1 = display.newImageRect("img/sfondo1.png",1920,1080)
+sfondo1.anchorX = 0
+sfondo1.anchorY = 0
+sfondo1.x = display.contentWidth
+sfondo1.y = display.contentHeight-sfondo1.height
+local sfondo1_next = display.newImageRect("img/sfondo1.png",1920,1080)
+sfondo1_next.anchorX = 0
+sfondo1_next.anchorY = 0
+sfondo1_next.x = 0
+sfondo1_next.y = display.contentHeight-sfondo1_next.height
 
 
 local function scroller(self, event)
@@ -43,10 +43,35 @@ local function scroller(self, event)
 		self.x = self.x - speed
 	end
 end
-sfondo.enterFrame = scroller 
-Runtime:addEventListener( "enterFrame", sfondo )
-sfondo_next.enterFrame = scroller 
-Runtime:addEventListener( "enterFrame", sfondo_next )
+sfondo1.enterFrame = scroller 
+Runtime:addEventListener( "enterFrame", sfondo1 )
+sfondo1_next.enterFrame = scroller 
+Runtime:addEventListener( "enterFrame", sfondo1_next )
+-----
+local sfondo2 = display.newImageRect("img/sfondo2.png",1920,1080)
+sfondo2.anchorX = 0
+sfondo2.anchorY = 0
+sfondo2.x = display.contentWidth
+sfondo2.y = display.contentHeight-sfondo2.height
+local sfondo2_next = display.newImageRect("img/sfondo2.png",1920,1080)
+sfondo2_next.anchorX = 0
+sfondo2_next.anchorY = 0
+sfondo2_next.x = 0
+sfondo2_next.y = display.contentHeight-sfondo2_next.height
+
+
+local function scroller(self, event)
+	local speed =4
+	if self.x < -(display.contentWidth-speed*2) then
+		self.x = display.contentWidth
+	else 
+		self.x = self.x - speed
+	end
+end
+sfondo2.enterFrame = scroller 
+Runtime:addEventListener( "enterFrame", sfondo2)
+sfondo2_next.enterFrame = scroller 
+Runtime:addEventListener( "enterFrame", sfondo2_next )
 local ground
 local bearSheet
 local bear
