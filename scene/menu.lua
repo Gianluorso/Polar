@@ -22,9 +22,11 @@ function scene:create( event )
             composer.gotoScene( "scene.game" )
         end
     end
-    local title = display.newText( "Polar", display.contentCenterX, 150, native.systemFont, 128 )
+    local title = display.newText( "Polar", display.contentCenterX, 150, native.systemFontBold, 128)
     
     title:setFillColor( 1, 1, 1 )
+   -- title:stroke (paint)
+   -- title:strokeWidth (4)
     
     local playButton = widget.newButton(
         {
@@ -45,7 +47,7 @@ function scene:create( event )
         }
     )
     playButton.x = display.contentCenterX
-    playButton.y = display.contentCenterY
+    playButton.y = display.contentCenterY+150
     
     sceneGroup:insert( background )
     sceneGroup:insert( title )
