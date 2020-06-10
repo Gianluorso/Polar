@@ -234,7 +234,7 @@ function scene:create(event)
             local textG = rainbowColors[rainbowColorIndex][2]
             local textB = rainbowColors[rainbowColorIndex][3]
             rainbowRepetitions = rainbowRepetitions + 1
-            if (rainbowRepetitions >= 3) then
+            if (rainbowRepetitions >= 20) then
                 rainbowRepetitions = 0
                 rainbowColorIndex = (rainbowColorIndex + 1) %
                                         table.getn(rainbowColors)
