@@ -281,7 +281,7 @@ function scene:create(event)
         end
 
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
-        if (bear.x < -600) then
+        if (bear.x < -250) then
             audio.stop(runMusicChannel)
            audio.stop()
             if (isTextShown) then display.remove(flipTextShown) end
