@@ -3,10 +3,10 @@ local widget = require("widget")
 local physics = require "physics"
 
 audio.play(backgroundMusic)
-audio.setVolume(0.05)
+audio.stop()
 
 physics.start()
- physics.setDrawMode("hybrid")
+ --physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local sfondo3
@@ -28,6 +28,8 @@ local function sensorCollide(self, event)
     if (event.selfElement == 2 and event.other.objType == "ground") then
         if (not runMusicStarted) then
             runMusicChannel = audio.play(runMusic, {loops = -1})
+            audio.setVolume(1)
+            audio.stop()
             runMusicStarted = true
         end
 
@@ -123,14 +125,12 @@ function scene:create(event)
         end
     end
 
-    local ground = display.newImageRect("img/ground.png",
-                                         1100, 70)
+    local ground = display.newImageRect("img/ground.png", display.contentWidth * 2, display.contentHeight)
     ground.anchorX = 0
     ground.anchorY = 0
     ground.x = display.contentWidth - 200
     ground.y = display.contentHeight - ground.height
-    local ground_next = display.newImageRect("img/ground.png",
-                                              1100,70)
+    local ground_next = display.newImageRect("img/ground.png", display.contentWidth * 2, display.contentHeight)
                                                   
 
     ground_next.anchorX = 0
@@ -211,7 +211,7 @@ function scene:create(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
             audio.play(jumpMusic)
             bear.gravityScale = 4
-            bear:setLinearVelocity(20, -800)
+            bear:setLinearVelocity(20, -690)
         elseif (event.phase == "ended") then
             bear.gravityScale = 10
         end
@@ -220,7 +220,7 @@ function scene:create(event)
     local flipTextShown
     local isTextShown = false
     local rainbowColors = {
-        {255, 0, 0}, {255, 165, 0}, {255, 255, 0}, {0, 128, 0}, {0, 0, 255},
+        {255, 0, 0}, {255, 165, 0}, {255, 255, 0}, {0, 180, 0}, {0, 0, 255},
         {75, 0, 130}, {238, 130, 238}
     }
     local rainbowRepetitions = 0
@@ -243,8 +243,8 @@ function scene:create(event)
                     rainbowColorIndex = rainbowColorIndex + 1
                 end
             end
-            flipTextShown:setFillColor(textR / 255.0, textG / 255.0,
-                                       textB / 255.0)
+            flipTextShown:setFillColor(textR / 255.50, textG / 255.50,
+                                       textB / 255.50)
         end
         -- check for frontflip or backflip
         local bearActualRotation = bear.rotation
@@ -307,9 +307,9 @@ function scene:create(event)
     Runtime:addEventListener("enterFrame", sfondo1_next)
     Runtime:addEventListener("enterFrame", on_frame)
 
-    ground.enterFrame = scroller
+    ground.enterFrame = scroller2
     Runtime:addEventListener("enterFrame", ground)
-    ground_next.enterFrame = scroller
+    ground_next.enterFrame = scroller2
     Runtime:addEventListener("enterFrame", ground_next)
     Runtime:addEventListener("enterFrame", on_frame)
 
