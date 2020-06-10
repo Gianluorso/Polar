@@ -124,13 +124,13 @@ function scene:create(event)
     end
 
     local ground = display.newImageRect("img/ground.png",
-                                         160, 700)
+                                         1100, 160)
     ground.anchorX = 0
     ground.anchorY = 0
     ground.x = display.contentWidth - 200
     ground.y = display.contentHeight - ground.height
     local ground_next = display.newImageRect("img/ground.png",
-                                              160,700)
+                                              1100,160)
                                                   
 
     ground_next.anchorX = 0
