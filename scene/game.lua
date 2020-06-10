@@ -89,20 +89,21 @@ function scene:create( event )
     background.y = display.contentHeight
 
 
-    local sfondo1 = display.newImageRect("img/sfondo1.png",1920,1080)
-sfondo1.anchorX = 0
-sfondo1.anchorY = 0
-sfondo1.x = display.contentWidth
-sfondo1.y = display.contentHeight-sfondo1.height
-local sfondo1_next = display.newImageRect("img/sfondo1.png",1920,1080)
-sfondo1_next.anchorX = 0
-sfondo1_next.anchorY = 0
-sfondo1_next.x = 0
-sfondo1_next.y = display.contentHeight-sfondo1_next.height
+    local sfondo1 = display.newImageRect("img/sfondo1.png",display.contentWidth, display.contentHeight)
+    sfondo1.anchorX = 0
+    sfondo1.anchorY = 0
+    sfondo1.x = display.contentWidth
+    sfondo1.y = display.contentHeight-sfondo1.height
+    local sfondo1_next = display.newImageRect("img/sfondo1.png",display.contentWidth, display.contentHeight)
+    sfondo1_next.anchorX = 0
+    sfondo1_next.anchorY = 0
+    sfondo1_next.x = 0
+    sfondo1_next.y = display.contentHeight-sfondo1_next.height
 
 
 local function scroller(self, event)
-	local speed =2
+    local speed =7
+    
 	if self.x < -(display.contentWidth-speed*2) then
 		self.x = display.contentWidth
 	else 
