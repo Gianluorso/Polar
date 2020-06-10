@@ -11,32 +11,9 @@ physics.start()
 
 local scene = composer.newScene()
 local background
+local sfondo2
 local sfondo1
---[[
-local sfondo2 = display.newImageRect("img/sfondo2.png",1920,1080)
-sfondo2.anchorX = 0
-sfondo2.anchorY = 0
-sfondo2.x = display.contentWidth
-sfondo2.y = display.contentHeight-sfondo2.height
-local sfondo2_next = display.newImageRect("img/sfondo2.png",1920,1080)
-sfondo2_next.anchorX = 0
-sfondo2_next.anchorY = 0
-sfondo2_next.x = 0
-sfondo2_next.y = display.contentHeight-sfondo2_next.height
 
-
-local function scroller(self, event)
-	local speed =4
-	if self.x < -(display.contentWidth-speed*2) then
-		self.x = display.contentWidth
-	else 
-		self.x = self.x - speed
-	end
-end
-sfondo2.enterFrame = scroller 
-Runtime:addEventListener( "enterFrame", sfondo2)
-sfondo2_next.enterFrame = scroller 
-Runtime:addEventListener( "enterFrame", sfondo2_next )]]--
 local ground
 local bearSheet
 local bear
@@ -76,6 +53,27 @@ function scene:create( event )
     background.x = display.contentWidth/2
     background.y = display.contentHeight
 
+    local sfondo2 = display.newImageRect("img/sfondo2.png",display.contentWidth*2, display.contentHeight)
+    sfondo2.anchorX = 0
+    sfondo2.anchorY = 0
+    sfondo2.x = display.contentWidth
+    sfondo2.y = display.contentHeight-sfondo2.height
+    local sfondo2_next = display.newImageRect("img/sfondo1.png",display.contentWidth*2, display.contentHeight)
+    sfondo2_next.anchorX = 0
+    sfondo2_next.anchorY = 0
+    sfondo2_next.x = 0
+    sfondo2_next.y = display.contentHeight-sfondo2_next.height
+
+    local function scroller(self, event)
+    local speed =2
+    
+	if self.x < -(display.contentWidth-speed*2) then
+		self.x = display.contentWidth
+	else 
+		self.x = self.x - speed
+    end
+end
+
 
     local sfondo1 = display.newImageRect("img/sfondo1.png",display.contentWidth*2, display.contentHeight)
     sfondo1.anchorX = 0
@@ -89,7 +87,7 @@ function scene:create( event )
     sfondo1_next.y = display.contentHeight-sfondo1_next.height
 
 
-local function scroller(self, event)
+    local function scroller(self, event)
     local speed =3
     
 	if self.x < -(display.contentWidth-speed*2) then
@@ -97,6 +95,7 @@ local function scroller(self, event)
 	else 
 		self.x = self.x - speed
 	end
+end
 end
 
 
@@ -161,6 +160,7 @@ end
     -- Associate collision handler function with character
     bear.collision = sensorCollide
     bear:addEventListener( "collision" )
+  
 
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
@@ -224,6 +224,7 @@ end
         --controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -150) then
             audio.stop(runMusicChannel)
+            audio.stop()
             if(isTextShown) then
                 display.remove(flipTextShown)
             end
@@ -239,6 +240,8 @@ end
 
     Runtime:addEventListener("touch", onTouch)
     sceneGroup:insert(background)
+    sceneGroup:insert( sfondo2 )
+    sceneGroup:insert( sfondo2_next )
     sceneGroup:insert( sfondo1 )
     sceneGroup:insert( sfondo1_next )
     sceneGroup:insert( ground )
@@ -311,11 +314,19 @@ function scene:destroy( event )
 
     --Removes all the runtime event listeners
     Runtime._functionListeners = nil
-audio.stop(backgroundMusic)
+
 
     if background then
         background:removeSelf()
         background = nil
+    end
+    if sfondo2 then
+        sfondo2:removeSelf()
+        sfondo2 = nil
+    end
+        if sfondo2_next then
+        sfondo2_next:removeSelf()
+        sfondo2_next = nil
     end
     if sfondo1 then
         sfondo1:removeSelf()
