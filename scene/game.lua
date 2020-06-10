@@ -60,23 +60,13 @@ function scene:create(event)
     sfondo2.anchorY = 0
     sfondo2.x = display.contentWidth
     sfondo2.y = display.contentHeight - sfondo2.height
-    local sfondo2_next = display.newImageRect("img/sfondo1.png",
+    local sfondo2_next = display.newImageRect("img/sfondo2.png",
                                               display.contentWidth * 2,
                                               display.contentHeight)
     sfondo2_next.anchorX = 0
     sfondo2_next.anchorY = 0
     sfondo2_next.x = 0
     sfondo2_next.y = display.contentHeight - sfondo2_next.height
-
-    local function scroller(self, event)
-        local speed = 1
-
-        if self.x < -(display.contentWidth - speed * 2) then
-            self.x = display.contentWidth
-        else
-            self.x = self.x - speed
-        end
-    end
 
     local sfondo1 = display.newImageRect("img/sfondo1.png",
                                          display.contentWidth * 2,
@@ -96,8 +86,8 @@ function scene:create(event)
     local function scroller(self, event)
         local speed = 3
 
-        if self.x < -(display.contentWidth - speed * 2) then
-            self.x = display.contentWidth
+        if self.x < -(display.contentWidth + 200 - speed * 2) then
+            self.x = display.contentWidth - 200
         else
             self.x = self.x - speed
         end
@@ -246,7 +236,7 @@ function scene:create(event)
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -150) then
             audio.stop(runMusicChannel)
-           -- audio.stop()
+            --audio.stop()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
@@ -298,6 +288,7 @@ function scene:create(event)
 
         if ("ended" == event.phase) then
             audio.stop(runMusicChannel)
+            audio.stop()
             composer.removeScene("scene.game")
             composer.gotoScene("scene.menu")
         end
