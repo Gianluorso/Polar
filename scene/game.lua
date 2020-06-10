@@ -29,6 +29,8 @@ local bear
 local runMusicChannel
 local runMusicStarted = false
 
+local bearRotation = 0
+
 -- bearSheet collision handler
 local function sensorCollide( self, event )
  
@@ -129,9 +131,60 @@ function scene:create( event )
             bear.gravityScale= 10
         end
     end
+    
 
-    --controllo ad ogni frame se il giocatore e' rimasto indietro
+    local flipTextShown
+    local isTextShown = false
+    local rainbowColors = { {255, 0 ,0}, {255, 165, 0}, {255, 255, 0}, {0, 128, 0}, {0, 0, 255}, {75, 0, 130}, {238, 130, 238} }
+    local rainbowRepetitions = 0
+    local rainbowColorIndex = 1
+
+    --executex every frame
     local function on_frame( event )
+        --rainbow color
+        if(isTextShown) then
+            local textR = rainbowColors[rainbowColorIndex][1]
+            local textG = rainbowColors[rainbowColorIndex][2]
+            local textB = rainbowColors[rainbowColorIndex][3]
+            rainbowRepetitions = rainbowRepetitions + 1
+            if(rainbowRepetitions >= 3) then
+                rainbowRepetitions = 0
+                rainbowColorIndex = (rainbowColorIndex + 1) % table.getn(rainbowColors)
+                --apparently arrays in lua starts from 1 :/
+                if(rainbowColorIndex == 0) then
+                    rainbowColorIndex = rainbowColorIndex + 1
+                end
+            end            
+            flipTextShown:setFillColor( textR/255.0, textG/255.0, textB/255.0 )
+        end
+        --check for frontflip or backflip
+        local bearActualRotation = bear.rotation
+        if(math.abs(math.abs(bearRotation)-math.abs(bearActualRotation)) >= 350) then
+
+            local flipText = "Frontflip!"
+
+            if(bearActualRotation>bearRotation) then
+                bearRotation = bearRotation + 360
+            else
+                bearRotation = bearRotation - 360
+                flipText = "BackFlip!"
+            end
+
+            flipTextShown  = display.newText( flipText, display.contentCenterX, display.contentCenterY - 250, native.systemFont, 32 )
+            isTextShown = true
+
+            local function hideText( event )
+                isTextShown = false
+                display.remove(flipTextShown)
+                textR = 1
+                textG = 1
+                textB = 1
+            end
+                
+            timer.performWithDelay( 2000, hideText )
+        end
+
+        --controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -150) then
             audio.stop(runMusicChannel)
             composer.removeScene("scene.game")
@@ -150,7 +203,7 @@ function scene:create( event )
     local limiteavanti = display.newRect( 1050, 350, 250, 650 )
     limiteavanti:setFillColor( 1, 0, 0, 0.6 )
     limiteavanti.isVisible = false
-    limiteavanti.objType = "ground"
+    --limiteavanti.rotation = -5
     physics.addBody( limiteavanti, "static", { bounce=0.0, friction=0.3 } )
 
     local limitealto = display.newRect(600, -20, 800, 50 )
