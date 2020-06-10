@@ -170,7 +170,8 @@ function scene:create(event)
 
     -- Platform Movement
     local function movePlatform(platform, firstTime)
-        local transitionTime = 1500
+        local distance = math.abs(platform.x) + 300
+        local transitionTime = (15/13) * distance
         if (firstTime) then
             firstTime = false
             transitionTime = transitionTime + 2000 -- aggiungo 2s
@@ -340,6 +341,7 @@ function scene:create(event)
     sceneGroup:insert(ground_next)
     sceneGroup:insert(bear)
     sceneGroup:insert(platform)
+    sceneGroup:insert(platform2)
 
     local limiteavanti = display.newRect(1050, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
