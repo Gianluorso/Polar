@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 audio.stop()
 
 physics.start()
- --physics.setDrawMode("hybrid")
+ physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local sfondo3
@@ -148,26 +148,41 @@ function scene:create(event)
     
 
     -- Platform
-    local platform = display.newImage("img/platform.png")
-    platform.x = 1000
-    platform.y = 400
+    local function createPlatform(size, posX, posY)
+        local newPlatform = display.newImage("img/platform.png")
+        newPlatform.x = posX
+        newPlatform.y = posY
+    
+        newPlatform:setFillColor(1, 1, 1)
+        newPlatform.objType = "ground"
+        local scale = size
+        physics.addBody(newPlatform, "kinematic", {
+            bounce = 0.0,
+            friction = 0.3,
+            shape = {-60 * scale, 15, 60 * scale, 15, 60 * scale, -15, -60 * scale, -15}
+        })
+        newPlatform.xScale = scale
+        return newPlatform
+    end
 
-    platform:setFillColor(1, 1, 1)
-    platform.objType = "ground"
-    physics.addBody(platform, "kinematic", {
-        bounce = 0.0,
-        friction = 0.3,
-        shape = {-60 * 3, 15, 60 * 3, 15, 60 * 3, -15, -60 * 3, -15}
-    })
-    platform.xScale = 3
+    local platform = createPlatform(3, 1000, 400)
+    local platform2 = createPlatform(10, -100, 500)
 
     -- Platform Movement
-    local function movePlatform(firstTime)
+    local function movePlatform(platform, firstTime)
         local transitionTime = 1500
         if (firstTime) then
             firstTime = false
             transitionTime = transitionTime + 2000 -- aggiungo 2s
             platform.x = platform.x + 2000 -- aggiungo un po' di distanza
+            physics.removeBody(platform)
+            scale = 3
+            physics.addBody(platform, "kinematic", {
+                bounce = 0.0,
+                friction = 0.3,
+                shape = {-60 * scale, 15, 60 * scale, 15, 60 * scale, -15, -60 * scale, -15}
+            })
+            platform.xScale = scale
         end
         transition.to(platform, {
             x = -300,
@@ -175,11 +190,12 @@ function scene:create(event)
             onComplete = function()
                 platform.y = 450 + math.random(100)
                 platform.x = 1000
-                movePlatform(false)
+                movePlatform(platform, false)
             end
         })
     end
-    movePlatform(true)
+    movePlatform(platform, true)
+    movePlatform(platform2, true)
 
     local opt = {numFrames = 8, width = 512, height = 512}
     local bearSheet = graphics.newImageSheet("img/bear.png", opt)
@@ -234,7 +250,7 @@ function scene:create(event)
             local textG = rainbowColors[rainbowColorIndex][2]
             local textB = rainbowColors[rainbowColorIndex][3]
             rainbowRepetitions = rainbowRepetitions + 1
-            if (rainbowRepetitions >= 3) then
+            if (rainbowRepetitions >= 20) then
                 rainbowRepetitions = 0
                 rainbowColorIndex = (rainbowColorIndex + 1) %
                                         table.getn(rainbowColors)
