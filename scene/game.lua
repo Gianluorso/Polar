@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 audio.setVolume(0.05)
 
 physics.start()
--- physics.setDrawMode("hybrid")
+ physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local sfondo3
@@ -336,6 +336,12 @@ function scene:create(event)
     limitealto.isVisible = false
     limitealto.objType = "ground"
     physics.addBody(limitealto, "static", {bounce = 0.0, friction = 0.3})
+
+    local limitebasso = display.newRect(display.contentWidth/2, 500, 1200, 50)
+    limitealto:setFillColor(1, 0, 0, 0.6)
+    limitealto.isVisible = false
+    limitealto.objType = "ground"
+    physics.addBody(limitebasso, "static", {bounce = 0.0, friction = 0.3})
 
     local contorno_bear = {-100, 50, -100, -50, 100, -50, 100, 50}
     physics.addBody(bear, "dinamic", {shape = contorno_bear}, -- Main body element
