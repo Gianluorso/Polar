@@ -22,11 +22,10 @@ function scene:create( event )
             composer.gotoScene( "scene.game" )
         end
     end
-    local myText = display.newText( "Polar", 0, 0, native.systemFont, 64 )
-    myText.x = display.contentWidth/2-20 ; myText.y = 50
+    local title = display.newText( "Polar", display.contentCenterX, 150, native.systemFont, 128 )
     
-    myText:setFillColor( 1, 1, 1 )
-    myText.anchorX = 0
+    title:setFillColor( 1, 1, 1 )
+    
     local playButton = widget.newButton(
         {
             label = "Play",
@@ -49,6 +48,7 @@ function scene:create( event )
     playButton.y = display.contentCenterY
     
     sceneGroup:insert( background )
+    sceneGroup:insert( title )
     sceneGroup:insert( playButton )
 end
 
@@ -66,7 +66,10 @@ function scene:destroy( event )
 		background:removeSelf()	-- widgets must be manually removed
 		background = nil
 	end
-
+    if title then
+		title:removeSelf()	-- widgets must be manually removed
+		title = nil
+	end
     if playButton then
 		playButton:removeSelf()	-- widgets must be manually removed
 		playButton = nil
