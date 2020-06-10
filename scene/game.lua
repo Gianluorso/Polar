@@ -19,7 +19,7 @@ audio.setVolume( 0.05 )
  --   end
 --end
 physics.start()
-physics.setDrawMode("hybrid")
+--physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local background
