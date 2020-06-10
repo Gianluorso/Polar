@@ -12,21 +12,7 @@ function scene:create( event )
     local background=display.newImageRect("img/background.jpg", display.contentWidth*2, display.contentHeight*2)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
-local myTextField = widget.newTextField(
-   {
-   top = 10,
-   left = 20,
-   width = 200,
-   height = 30,
-   cornerRadius = 8,
-   strokeWidth = 3,
-   backgroundColor = { 1, 1, 1 },
-   strokeColor = { 0, 0, 0 },
-   font = "Helvetica",
-   fontSize = 24,
-   listener = textFieldHandler
-   }
-)
+
 
 
     -- Function to handle button events
