@@ -53,14 +53,14 @@ function scene:create(event)
                                          display.contentHeight)
     sfondo3.anchorX = 0
     sfondo3.anchorY = 0
-    sfondo3.x = display.contentWidth
+    sfondo3.x = display.contentWidth - 200
     sfondo3.y = display.contentHeight - sfondo3.height
     local sfondo3_next = display.newImageRect("img/sfondo3.png",
                                               display.contentWidth * 2,
                                               display.contentHeight)
     sfondo3_next.anchorX = 0
     sfondo3_next.anchorY = 0
-    sfondo3_next.x = 0
+    sfondo3_next.x = - 200
     sfondo3_next.y = display.contentHeight - sfondo3_next.height
 
     local sfondo2 = display.newImageRect("img/sfondo2.png",
@@ -68,14 +68,14 @@ function scene:create(event)
                                          display.contentHeight)
     sfondo2.anchorX = 0
     sfondo2.anchorY = 0
-    sfondo2.x = display.contentWidth
+    sfondo2.x = display.contentWidth - 200
     sfondo2.y = display.contentHeight - sfondo2.height
     local sfondo2_next = display.newImageRect("img/sfondo2.png",
                                               display.contentWidth * 2,
                                               display.contentHeight)
     sfondo2_next.anchorX = 0
     sfondo2_next.anchorY = 0
-    sfondo2_next.x = 0
+    sfondo2_next.x = - 200
     sfondo2_next.y = display.contentHeight - sfondo2_next.height
 
     local sfondo1 = display.newImageRect("img/sfondo1.png",
@@ -83,14 +83,14 @@ function scene:create(event)
                                          display.contentHeight)
     sfondo1.anchorX = 0
     sfondo1.anchorY = 0
-    sfondo1.x = display.contentWidth
+    sfondo1.x = display.contentWidth - 200
     sfondo1.y = display.contentHeight - sfondo1.height
     local sfondo1_next = display.newImageRect("img/sfondo1.png",
                                               display.contentWidth * 2,
                                               display.contentHeight)
     sfondo1_next.anchorX = 0
     sfondo1_next.anchorY = 0
-    sfondo1_next.x = 0
+    sfondo1_next.x = - 200
     sfondo1_next.y = display.contentHeight - sfondo1_next.height
 
     local function scroller3(self, event)
