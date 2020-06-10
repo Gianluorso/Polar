@@ -23,6 +23,30 @@ physics.start()
 
 local scene = composer.newScene()
 local background
+local sfondo = display.newImageRect("img/sfondo2.png",1920,1080)
+sfondo.anchorX = 0
+sfondo.anchorY = 0
+sfondo.x = display.contentWidth
+sfondo.y = display.contentHeight-sfondo.height
+local sfondo_next = display.newImageRect("img/sfondo2.png",1920,1080)
+sfondo_next.anchorX = 0
+sfondo_next.anchorY = 0
+sfondo_next.x = 0
+sfondo_next.y = display.contentHeight-sfondo_next.height
+
+
+local function scroller(self, event)
+	local speed =2
+	if self.x < -(display.contentWidth-speed*2) then
+		self.x = display.contentWidth
+	else 
+		self.x = self.x - speed
+	end
+end
+sfondo.enterFrame = scroller 
+Runtime:addEventListener( "enterFrame", sfondo )
+sfondo_next.enterFrame = scroller 
+Runtime:addEventListener( "enterFrame", sfondo_next )
 local ground
 local bearSheet
 local bear
@@ -30,6 +54,7 @@ local runMusicChannel
 local runMusicStarted = false
 
 local bearRotation = 0
+
 
 -- bearSheet collision handler
 local function sensorCollide( self, event )
@@ -309,6 +334,7 @@ end
 
 
 -- Scene listener setup
+
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
