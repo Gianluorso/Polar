@@ -223,14 +223,21 @@ function scene:create(event)
                 flipText = "BackFlip!"
             end
 
+            if(isTextShown) then
+                isTextShown = false
+                display.remove(flipTextShown)
+            end
+
             flipTextShown = display.newText(flipText, display.contentCenterX,
                                             display.contentCenterY - 250,
                                             native.systemFont, 32)
             isTextShown = true
 
             local function hideText(event)
-                isTextShown = false
-                display.remove(flipTextShown)
+                if(isTextShown) then
+                    isTextShown = false
+                    display.remove(flipTextShown)
+                end
             end
 
             timer.performWithDelay(2000, hideText)
