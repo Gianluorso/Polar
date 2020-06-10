@@ -252,6 +252,7 @@ end
     Runtime:addEventListener("touch", onTouch)
     sceneGroup:insert(background)
     sceneGroup:insert( sfondo1 )
+    sceneGroup:insert( sfondo1_next )
     sceneGroup:insert( ground )
     sceneGroup:insert( bear )
     sceneGroup:insert( platform )
@@ -331,6 +332,10 @@ function scene:destroy( event )
     if sfondo1 then
         sfondo1:removeSelf()
         sfondo1 = nil
+    end
+        if sfondo1_next then
+        sfondo1_next:removeSelf()
+        sfondo1_next = nil
     end
     
     if ground then
