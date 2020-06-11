@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 audio.stop()
 
 physics.start()
- --physics.setDrawMode("hybrid")
+ physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local sfondo3
@@ -183,7 +183,7 @@ function scene:create(event)
         physics.addBody(newPlatform, "kinematic", {
             bounce = 0.0,
             friction = 0.3,
-            shape = {-60 * scale + xOffset, 15, 60 * scale + xOffset, 15, 60 * scale + xOffset, -bboxHeight, -60 * scale + xOffset, -bboxHeight}
+            shape = {-60 * scale + xOffset, 100, 60 * scale + xOffset, 100, 60 * scale + xOffset, -bboxHeight, -60 * scale + xOffset, -bboxHeight}
         })
         --newPlatform.xScale = scale
         return newPlatform
@@ -372,12 +372,14 @@ function scene:create(event)
     sceneGroup:insert(sfondo2_next)
     sceneGroup:insert(sfondo1)
     sceneGroup:insert(sfondo1_next)
-    sceneGroup:insert(ground)
-    sceneGroup:insert(ground_next)
     sceneGroup:insert(bear)
     sceneGroup:insert(platformNormal)
     sceneGroup:insert(platformSmall)
     sceneGroup:insert(platformBig)
+    sceneGroup:insert(ground)
+    sceneGroup:insert(ground_next)
+
+
 
     local limiteavanti = display.newRect(1050, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
