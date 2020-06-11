@@ -7,26 +7,11 @@ local scene = composer.newScene()
 local background
 local playAgainButton
 
- 
-local highScore = 0
-
 function scene:create( event )
 	local sceneGroup = self.view
     local background=display.newImageRect("img/background3.jpg", display.contentWidth*1.3, display.contentHeight*1.3)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
-
-    local loadedSettings = loadsave.loadTable( "settings.json" )
-    if(loadedSettings == nil) then --first game
-        local gameSettings = {
-            highScore = scoreText.text
-        }        
-        loadsave.saveTable( gameSettings, "settings.json" )
-        highScore = scoreText.text
-    else
-        highScore = loadedSettings.highScore
-    end
-    print(highScore)
 
     -- Function to handle button events
     local function handleButtonEvent( event )
@@ -68,7 +53,33 @@ function scene:create( event )
 end
 
 function scene:show( event )
-
+    local phase = event.phase
+ 
+    if ( phase == "will" ) then
+        -- Code here runs when the scene is still off screen (but is about to come on screen)
+        
+        --check old highscore
+        local loadedSettings = loadsave.loadTable( "settings.json" )
+        local loadedHighScore = 0
+        if(loadedSettings == nil) then --first game
+            local gameSettings = {
+                highScore = tonumber(scoreText.text)
+            }        
+            loadsave.saveTable( gameSettings, "settings.json" )
+        else
+            loadedHighScore = loadedSettings.highScore
+        end
+        print(string.format("%d %s", loadedHighScore, scoreText.text))
+        if(tonumber(scoreText.text) > loadedHighScore)then
+            local gameSettings = {
+                highScore = tonumber(scoreText.text)
+            }        
+            loadsave.saveTable( gameSettings, "settings.json" )
+        end
+ 
+    elseif ( phase == "did" ) then
+        -- Code here runs when the scene is entirely on screen
+    end
 end
 
 function scene:hide( event )
