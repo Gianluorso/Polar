@@ -9,32 +9,8 @@ physics.start()
  --physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
-----timer----
+----score----
 scoreText = display.newText( "0", display.contentCenterX, 30, native.systemFont, 36 )
-local function lerp( v0, v1, t )
-    return v0 + t * (v1 - v0)
-end
-local function incrementScore( target, amount, duration, startValue )
- 
-    local newScore = startValue or 0
-    local passes = (duration/1000) * display.fps
-    local increment = lerp( 0, amount, 1/passes )
- 
-    local count = 0
-    local function updateText()
-        if ( count <= passes ) then
-            newScore = newScore + increment
-            target.text = string.format( "%06d", newScore )
-            count = count + 1
-        else
-            Runtime:removeEventListener( "enterFrame", updateText )
-            target.text = string.format( "%06d", amount + (startValue or 0) )
-        end
-    end
- 
-    Runtime:addEventListener( "enterFrame", updateText )
-end
-incrementScore( scoreText, 999999, 100000000 )
 
 
 local sfondo3
@@ -50,6 +26,8 @@ local jumpMusicChannel
 local jumpMusicStarted = false
 
 local bearRotation = 0
+
+start_time = 0
 
 
 -- bearSheet collision handler
@@ -77,6 +55,7 @@ local function sensorCollide(self, event)
 end
 
 function scene:create(event)
+    start_time = os.time()
 
     physics.start()
     local sceneGroup = self.view
@@ -392,6 +371,9 @@ function scene:create(event)
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
         end
+
+        elapsed_time = os.difftime(os.time(),start_time)
+        scoreText.text = elapsed_time
     end
     sfondo3.enterFrame = scroller3
     Runtime:addEventListener("enterFrame", sfondo3)
