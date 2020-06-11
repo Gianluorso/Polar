@@ -158,9 +158,21 @@ function scene:create(event)
 
     -- Platform
     local function createPlatform(size, posX, posY)
-        local newPlatform = display.newImage("img/platform.png")
+        local img ="img/platform1.png"
+        local bboxHeight = 45 --height of platform collider
+        if(size == 3) then
+            img = "img/platform2.png"
+            bboxHeight = 55
+        elseif(size == 4) then
+            img = "img/platform3.png"
+            bboxHeight = 55
+        end
+        print(size)
+        print(bboxHeight)
+        
+        local newPlatform = display.newImage(img)
         newPlatform.x = posX
-        newPlatform.y = posY
+        newPlatform.y = posY + 100
     
         newPlatform:setFillColor(1, 1, 1)
         newPlatform.objType = "ground"
@@ -168,9 +180,9 @@ function scene:create(event)
         physics.addBody(newPlatform, "kinematic", {
             bounce = 0.0,
             friction = 0.3,
-            shape = {-60 * scale, 15, 60 * scale, 15, 60 * scale, -15, -60 * scale, -15}
+            shape = {-60 * scale, 15, 60 * scale, 15, 60 * scale, -bboxHeight, -60 * scale, -bboxHeight}
         })
-        newPlatform.xScale = scale
+        --newPlatform.xScale = scale
         return newPlatform
     end
 
