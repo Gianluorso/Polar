@@ -175,42 +175,26 @@ function scene:create(event)
     end
 
     local platformDistance = 600
-
+    local maxPlatformDistance = 1200
+    local platformSpeed = 2
+    local maxPlatformSpeed = 5
     local platformNormal = createPlatform(3, platformDistance * 3, 400)
     local platformSmall = createPlatform(2, platformDistance * 2, 450)
     local platformBig = createPlatform(4, platformDistance, display.contentCenterY + 100)
-    --speed of platforms
-    local platformSpeed = 1.5
+    
+    local function checkAndRepositionPlatform(platform)
+        if(platform.x < - 600) then
+            platform.x = platformDistance * 2
 
-    local function incrementSpeedAndDistance()
-        if(platformSpeed > .3) then
-            platformSpeed =  platformSpeed - 0.005
-        end
-        if(platformDistance < 1000) then
-            platformDistance = platformDistance + 5
-        end
-    end
-
-    -- Platform Movement
-    local function movePlatform(platform)
-        local distance = (math.abs(platform.x) + platformDistance) * platformSpeed
-        local transitionTime = distance
-
-        transition.to(platform, {
-            x = -platformDistance,
-            time = transitionTime,
-            onComplete = function()
-                platform.y = 450 + math.random(100)
-                platform.x = platformDistance * 2
-                incrementSpeedAndDistance()
-                movePlatform(platform)
+            if(platformDistance < maxPlatformDistance) then
+                platformDistance = platformDistance + 4
             end
-        })
-    end
 
-    movePlatform(platformNormal)
-    movePlatform(platformSmall)
-    movePlatform(platformBig)
+            if(platformSpeed < maxPlatformSpeed) then
+                platformSpeed = platformSpeed + ((maxPlatformSpeed - platformSpeed) / 100)
+            end
+        end
+    end
 
     local opt = {numFrames = 8, width = 512, height = 512}
     local bearSheet = graphics.newImageSheet("img/bear.png", opt)
@@ -310,6 +294,15 @@ function scene:create(event)
 
             timer.performWithDelay(2000, hideText)
         end
+
+        --move platforms
+        platformSmall.x = platformSmall.x - platformSpeed
+        platformNormal.x = platformNormal.x - platformSpeed
+        platformBig.x = platformBig.x - platformSpeed
+
+        checkAndRepositionPlatform(platformSmall)
+        checkAndRepositionPlatform(platformNormal)
+        checkAndRepositionPlatform(platformBig)
 
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -250) then
