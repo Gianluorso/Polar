@@ -1,11 +1,14 @@
 local composer = require( "composer" )
 local widget = require( "widget" )
+local loadsave = require( "loadsave" )
 local scene = composer.newScene()
 
 -- forward declaration for widgets
 local background
 local playAgainButton
 
+ 
+local highScore = 0
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -13,7 +16,17 @@ function scene:create( event )
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 
-
+    local loadedSettings = loadsave.loadTable( "settings.json" )
+    if(loadedSettings == nil) then --first game
+        local gameSettings = {
+            highScore = scoreText.text
+        }        
+        loadsave.saveTable( gameSettings, "settings.json" )
+        highScore = scoreText.text
+    else
+        highScore = loadedSettings.highScore
+    end
+    print(highScore)
 
     -- Function to handle button events
     local function handleButtonEvent( event )

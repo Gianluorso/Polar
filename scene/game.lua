@@ -260,7 +260,7 @@ function scene:create(event)
 
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
-            audio.stop(jumpMusicChannel)
+            --audio.stop(jumpMusicChannel)
             jumpMusicChannel = audio.play(jumpMusic)
 
             bear.gravityScale = 4
