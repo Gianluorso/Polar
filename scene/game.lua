@@ -10,7 +10,7 @@ physics.start()
 
 local scene = composer.newScene()
 ----timer----
-local scoreText = display.newText( "0", display.contentCenterX, 30, native.systemFont, 36 )
+scoreText = display.newText( "0", display.contentCenterX, 30, native.systemFont, 36 )
 local function lerp( v0, v1, t )
     return v0 + t * (v1 - v0)
 end

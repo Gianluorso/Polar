@@ -19,6 +19,7 @@ function scene:create( event )
     local function handleButtonEvent( event )
     
         if ( "ended" == event.phase ) then
+            scoreText:removeSelf()
             composer.gotoScene( "scene.game" )
         end
     end
