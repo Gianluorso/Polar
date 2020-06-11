@@ -50,6 +50,7 @@ function scene:create( event )
     sceneGroup:insert( background )
     sceneGroup:insert( gameover )
     sceneGroup:insert( playAgainButton )
+    sceneGroup:insert( punteggio )
 end
 
 function scene:show( event )
@@ -76,7 +77,17 @@ function scene:show( event )
             }        
             loadsave.saveTable( gameSettings, "settings.json" )
         end
- 
+
+-----------show highscore
+        local function punteggio(event)
+            local value= tonumber(scoreText.text)
+            if (highscore>value) then 
+                display.newText( highscore, display.contentCenterX-250, 330, native.systemFontBold, 85) else
+                    display.newText( value, display.contentCenterX-250, 330, native.systemFontBold, 85)
+                end
+            end
+
+
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
     end
