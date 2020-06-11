@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 audio.stop()
 
 physics.start()
- physics.setDrawMode("hybrid")
+ --physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local sfondo3
@@ -158,14 +158,17 @@ function scene:create(event)
 
     -- Platform
     local function createPlatform(size, posX, posY)
-        local img ="img/platform1.png"
-        local bboxHeight = 45 --height of platform collider
+        local img ="img/platform2.png"
+        local xOffset = 5
+        local bboxHeight = 48 --height of platform collider
         if(size == 3) then
-            img = "img/platform2.png"
-            bboxHeight = 55
+            img = "img/platform1.png"
+            bboxHeight = 48
+            xOffset = 0
         elseif(size == 4) then
             img = "img/platform3.png"
-            bboxHeight = 55
+            bboxHeight = 49
+            xOffset = 0
         end
         print(size)
         print(bboxHeight)
@@ -180,7 +183,7 @@ function scene:create(event)
         physics.addBody(newPlatform, "kinematic", {
             bounce = 0.0,
             friction = 0.3,
-            shape = {-60 * scale, 15, 60 * scale, 15, 60 * scale, -bboxHeight, -60 * scale, -bboxHeight}
+            shape = {-60 * scale + xOffset, 15, 60 * scale + xOffset, 15, 60 * scale + xOffset, -bboxHeight, -60 * scale + xOffset, -bboxHeight}
         })
         --newPlatform.xScale = scale
         return newPlatform
@@ -197,6 +200,7 @@ function scene:create(event)
     local function checkAndRepositionPlatform(platform)
         if(platform.x < - 600) then
             platform.x = platformDistance * 2
+            platform.y = 550 - math.random(150)
 
             if(platformDistance < maxPlatformDistance) then
                 platformDistance = platformDistance + 4
@@ -328,6 +332,14 @@ function scene:create(event)
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
         end
+        -- controllo ad ogni frame se il giocatore e' caduto
+        if (bear.y > 800) then
+            audio.stop(runMusicChannel)
+           audio.stop()
+            if (isTextShown) then display.remove(flipTextShown) end
+            composer.removeScene("scene.game")
+            composer.gotoScene("scene.gameover")
+        end
     end
     sfondo3.enterFrame = scroller3
     Runtime:addEventListener("enterFrame", sfondo3)
@@ -379,11 +391,11 @@ function scene:create(event)
     limitealto.objType = "ground"
     physics.addBody(limitealto, "static", {bounce = 0.0, friction = 0.3})
 
-    local limitebasso = display.newRect(display.contentWidth/2, 600, 1700, 50)
-    limitebasso:setFillColor(1, 0, 0, 0.6)
-    limitebasso.isVisible = false
-    limitebasso.objType = "ground"
-    physics.addBody(limitebasso, "static", {bounce = 0.0, friction = 0.3})
+    -- local limitebasso = display.newRect(display.contentWidth/2, 600, 1700, 50)
+    -- limitebasso:setFillColor(1, 0, 0, 0.6)
+    -- limitebasso.isVisible = false
+    -- limitebasso.objType = "ground"
+    -- physics.addBody(limitebasso, "static", {bounce = 0.0, friction = 0.3})
 
     local contorno_bear = {-100, 50, -100, -50, 100, -50, 100, 50}
     physics.addBody(bear, "dinamic", {shape = contorno_bear}, -- Main body element
