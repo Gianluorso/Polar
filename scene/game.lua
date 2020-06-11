@@ -59,8 +59,8 @@ local function sensorCollide(self, event)
     if (event.selfElement == 2 and event.other.objType == "ground") then
         if (not runMusicStarted) then
             runMusicChannel = audio.play(runMusic, {loops = -1})
-            audio.setVolume(1)
-            audio.stop()
+            --comment the following line to enable walk sound
+            audio.setVolume(0, {channel = runMusicChannel})
             runMusicStarted = true
         end
 
@@ -280,7 +280,8 @@ function scene:create(event)
 
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
-            audio.play(jumpMusic)
+            audio.stop(jumpMusicChannel)
+            jumpMusicChannel = audio.play(jumpMusic)
 
             bear.gravityScale = 4
             bear:setLinearVelocity(20, -690)
