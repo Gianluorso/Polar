@@ -9,6 +9,34 @@ physics.start()
  physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
+----timer----
+local scoreText = display.newText( "0", display.contentCenterX, 30, native.systemFont, 36 )
+local function lerp( v0, v1, t )
+    return v0 + t * (v1 - v0)
+end
+local function incrementScore( target, amount, duration, startValue )
+ 
+    local newScore = startValue or 0
+    local passes = (duration/1000) * display.fps
+    local increment = lerp( 0, amount, 1/passes )
+ 
+    local count = 0
+    local function updateText()
+        if ( count <= passes ) then
+            newScore = newScore + increment
+            target.text = string.format( "%06d", newScore )
+            count = count + 1
+        else
+            Runtime:removeEventListener( "enterFrame", updateText )
+            target.text = string.format( "%06d", amount + (startValue or 0) )
+        end
+    end
+ 
+    Runtime:addEventListener( "enterFrame", updateText )
+end
+incrementScore( scoreText, 999999, 100000000 )
+
+
 local sfondo3
 local sfondo2
 local sfondo1
@@ -20,6 +48,7 @@ local runMusicChannel
 local runMusicStarted = false
 
 local bearRotation = 0
+
 
 -- bearSheet collision handler
 local function sensorCollide(self, event)
@@ -241,6 +270,7 @@ function scene:create(event)
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
             audio.play(jumpMusic)
+
             bear.gravityScale = 4
             bear:setLinearVelocity(20, -690)
         elseif (event.phase == "ended") then
@@ -378,6 +408,7 @@ function scene:create(event)
     sceneGroup:insert(platformBig)
     sceneGroup:insert(ground)
     sceneGroup:insert(ground_next)
+
 
 
 
