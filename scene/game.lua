@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 audio.stop()
 
 physics.start()
- physics.setDrawMode("hybrid")
+ --physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 local sfondo3
@@ -18,6 +18,8 @@ local bearSheet
 local bear
 local runMusicChannel
 local runMusicStarted = false
+local jumpMusicChannel
+local jumpMusicStarted = false
 
 local bearRotation = 0
 
@@ -240,7 +242,8 @@ function scene:create(event)
 
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
-            audio.play(jumpMusic)
+            audio.stop(jumpMusicChannel)
+            jumpMusicChannel = audio.play(jumpMusic)
             bear.gravityScale = 4
             bear:setLinearVelocity(20, -690)
         elseif (event.phase == "ended") then
