@@ -265,8 +265,10 @@ function scene:create(event)
 
             bear.gravityScale = 4
             bear:setLinearVelocity(20, -690)
+            bear:pause()
         elseif (event.phase == "ended") then
             bear.gravityScale = 10
+            bear:play()
         end
     end
 
@@ -308,7 +310,7 @@ function scene:create(event)
             350) then
 
             local flipText = "Frontflip!"
-            trick_score = trick_score + 100
+            trick_score = trick_score + 300
 
             if (bearActualRotation > bearRotation) then
                 bearRotation = bearRotation + 360
