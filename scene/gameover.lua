@@ -9,7 +9,7 @@ local playAgainButton
 
 function scene:create( event )
 	local sceneGroup = self.view
-    local background=display.newImageRect("img/background.jpg", display.contentWidth*1.5, display.contentHeight*1.5)
+    local background=display.newImageRect("img/background3.jpg", display.contentWidth*1.3, display.contentHeight*1.3)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 
@@ -22,6 +22,9 @@ function scene:create( event )
             composer.gotoScene( "scene.game" )
         end
     end
+        local gameover = display.newText( "GAME OVER", display.contentCenterX-250, 130, native.systemFontBold, 85)
+    
+    gameover:setFillColor( 1, 1, 1 )
     
     local playAgainButton = widget.newButton(
         {
@@ -42,10 +45,11 @@ function scene:create( event )
             
         }
     )
-    playAgainButton.x = display.contentCenterX + 200
-    playAgainButton.y = display.contentCenterY
+    playAgainButton.x = display.contentCenterX + 300
+    playAgainButton.y = display.contentCenterY+200
     
     sceneGroup:insert( background )
+    sceneGroup:insert( gameover )
     sceneGroup:insert( playAgainButton )
 end
 
@@ -63,7 +67,10 @@ function scene:destroy( event )
 		background:removeSelf()	-- widgets must be manually removed
 		background = nil
 	end
-
+    if gameover then
+		gameover:removeSelf()	-- widgets must be manually removed
+		gameover = nil
+    end
     if playButton then
 		playButton:removeSelf()	-- widgets must be manually removed
 		playButton = nil

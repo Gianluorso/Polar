@@ -9,7 +9,7 @@ local playButton
 
 function scene:create( event )
 	local sceneGroup = self.view
-    local background=display.newImageRect("img/background.jpg", display.contentWidth*1.5, display.contentHeight*1.5)
+    local background=display.newImageRect("img/background1.jpg", display.contentWidth*1.3, display.contentHeight*1.3)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 

@@ -234,9 +234,12 @@ function scene:create(event)
 
     local flipTextShown
     local isTextShown = false
-    local rainbowColors = {
+    --[[local rainbowColors = {
         {255, 0, 0}, {255, 165, 0}, {255, 255, 0}, {0, 180, 0}, {0, 0, 255},
         {75, 0, 130}, {238, 130, 238}
+    }]]--
+    local rainbowColors = {
+        {0, 165, 255}, {0, 255, 255}, {0, 108, 255}, {200, 255, 255}
     }
     local rainbowRepetitions = 0
     local rainbowColorIndex = 1
@@ -267,6 +270,7 @@ function scene:create(event)
             350) then
 
             local flipText = "Frontflip!"
+          
 
             if (bearActualRotation > bearRotation) then
                 bearRotation = bearRotation + 360
@@ -282,7 +286,7 @@ function scene:create(event)
 
             flipTextShown = display.newText(flipText, display.contentCenterX,
                                             display.contentCenterY - 250,
-                                            native.systemFont, 32)
+                                            native.systemFont, 48)
             isTextShown = true
 
             local function hideText(event)
