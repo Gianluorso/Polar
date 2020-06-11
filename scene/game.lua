@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 audio.stop()
 
 physics.start()
- physics.setDrawMode("hybrid")
+-- physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 ----score----
@@ -420,7 +420,7 @@ function scene:create(event)
     local limiteavanti = display.newRect(900, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
     limiteavanti.isVisible = false
-    -- limiteavanti.rotation = -5
+    limiteavanti.rotation = 5
     physics.addBody(limiteavanti, "static", {bounce = 0.0, friction = 0.3})
 
     local limitealto = display.newRect(600, -20, 800, 50)
