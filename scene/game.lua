@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 audio.stop()
 
 physics.start()
- physics.setDrawMode("hybrid")
+ --physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 ----timer----
@@ -46,6 +46,8 @@ local bearSheet
 local bear
 local runMusicChannel
 local runMusicStarted = false
+local jumpMusicChannel
+local jumpMusicStarted = false
 
 local bearRotation = 0
 
@@ -199,8 +201,6 @@ function scene:create(event)
             bboxHeight = 49
             xOffset = 0
         end
-        print(size)
-        print(bboxHeight)
         
         local newPlatform = display.newImage(img)
         newPlatform.x = posX
@@ -225,11 +225,21 @@ function scene:create(event)
     local platformNormal = createPlatform(3, platformDistance * 3, 400)
     local platformSmall = createPlatform(2, platformDistance * 2, 450)
     local platformBig = createPlatform(4, platformDistance, display.contentCenterY + 100)
+    local fallingSpeed = 0.1
+    local platformSmallFalling = false
+    local platformNormalFalling = false
+    local platformBigFalling = false
     
-    local function checkAndRepositionPlatform(platform)
+    local function checkAndRepositionPlatform(platform, isFalling)
         if(platform.x < - 600) then
             platform.x = platformDistance * 2
             platform.y = 550 - math.random(150)
+
+            if(platform.y < 450) then
+                isFalling = true
+            else
+                isFalling = false
+            end
 
             if(platformDistance < maxPlatformDistance) then
                 platformDistance = platformDistance + 4
@@ -239,6 +249,7 @@ function scene:create(event)
                 platformSpeed = platformSpeed + ((maxPlatformSpeed - platformSpeed) / 100)
             end
         end
+        return isFalling
     end
 
     local opt = {numFrames = 8, width = 512, height = 512}
@@ -350,9 +361,19 @@ function scene:create(event)
         platformNormal.x = platformNormal.x - platformSpeed
         platformBig.x = platformBig.x - platformSpeed
 
-        checkAndRepositionPlatform(platformSmall)
-        checkAndRepositionPlatform(platformNormal)
-        checkAndRepositionPlatform(platformBig)
+        platformSmallFalling = checkAndRepositionPlatform(platformSmall, platformSmallFalling)
+        platformNormalFalling = checkAndRepositionPlatform(platformNormal, platformNormalFalling)
+        platformBigFalling = checkAndRepositionPlatform(platformBig, platformBigFalling)
+
+        if(platformSmallFalling) then
+            platformSmall.y = platformSmall.y + fallingSpeed
+        end
+        if(platformNormalFalling) then
+            platformNormal.y = platformNormal.y + fallingSpeed
+        end
+        if(platformBigFalling) then
+            platformBig.y = platformBig.y + fallingSpeed
+        end
 
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -250) then
