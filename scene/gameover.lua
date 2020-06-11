@@ -50,7 +50,6 @@ function scene:create( event )
     sceneGroup:insert( background )
     sceneGroup:insert( gameover )
     sceneGroup:insert( playAgainButton )
-    sceneGroup:insert( punteggio)
 end
 
 function scene:show( event )
@@ -64,7 +63,7 @@ function scene:show( event )
         local loadedHighScore = 0
         if(loadedSettings == nil) then --first game
             local gameSettings = {
-                highScore = tonumber(scoreText.text)
+                loadedHighScore = tonumber(scoreText.text)
             }        
             loadsave.saveTable( gameSettings, "settings.json" )
         else
@@ -79,13 +78,21 @@ function scene:show( event )
         end
 
 -----------show highscore
-        local function punteggio(event)
+        local function punteggio()
+            local highScoreText
             local value= tonumber(scoreText.text)
-            if (highscore>value) then 
-                display.newText( highscore, display.contentCenterX-250, 330, native.systemFontBold, 85) else
-                    display.newText( value, display.contentCenterX-250, 330, native.systemFontBold, 85)
-                end
+            if (loadedHighScore>value) then 
+                highScoreText = display.newText( loadedHighScore, display.contentCenterX-250, 330, native.systemFontBold, 85)
+            else
+                highScoreText = display.newText( value, display.contentCenterX-250, 330, native.systemFontBold, 85)
             end
+            return highScoreText
+        end
+
+        local sceneGroup = self.view
+        sceneGroup:insert( punteggio() )
+
+        
 
 
     elseif ( phase == "did" ) then
