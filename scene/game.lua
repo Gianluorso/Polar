@@ -28,6 +28,7 @@ local jumpMusicStarted = false
 local bearRotation = 0
 
 start_time = 0
+trick_score = 0
 
 
 -- bearSheet collision handler
@@ -307,7 +308,7 @@ function scene:create(event)
             350) then
 
             local flipText = "Frontflip!"
-          
+            trick_score = trick_score + 100
 
             if (bearActualRotation > bearRotation) then
                 bearRotation = bearRotation + 360
@@ -373,7 +374,7 @@ function scene:create(event)
         end
 
         elapsed_time = os.difftime(os.time(),start_time)
-        scoreText.text = elapsed_time
+        scoreText.text = elapsed_time + trick_score
     end
     sfondo3.enterFrame = scroller3
     Runtime:addEventListener("enterFrame", sfondo3)
@@ -420,7 +421,7 @@ function scene:create(event)
     local limiteavanti = display.newRect(900, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
     limiteavanti.isVisible = false
-    -- limiteavanti.rotation = -5
+    limiteavanti.rotation = 5
     physics.addBody(limiteavanti, "static", {bounce = 0.0, friction = 0.3})
 
     local limitealto = display.newRect(600, -20, 800, 50)
