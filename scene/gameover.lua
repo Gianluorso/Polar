@@ -50,7 +50,7 @@ function scene:create( event )
     sceneGroup:insert( background )
     sceneGroup:insert( gameover )
     sceneGroup:insert( playAgainButton )
-    sceneGroup:insert( punteggio )
+    sceneGroup:insert( punteggio)
 end
 
 function scene:show( event )
