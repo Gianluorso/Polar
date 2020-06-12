@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 --audio.stop()
 
 physics.start()
--- physics.setDrawMode("hybrid")
+ --physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 ----score----
@@ -263,8 +263,8 @@ function scene:create(event)
             --audio.stop(jumpMusicChannel)
             jumpMusicChannel = audio.play(jumpMusic)
 
-            bear.gravityScale = 4
-            bear:setLinearVelocity(20, -690)
+            bear.gravityScale = 3.5
+            bear:setLinearVelocity(17, -695)
             bear:pause()
         elseif (event.phase == "ended") then
             bear.gravityScale = 10
@@ -420,7 +420,7 @@ function scene:create(event)
 
 
 
-    local limiteavanti = display.newRect(900, 350, 250, 650)
+    local limiteavanti = display.newRect(950, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
     limiteavanti.isVisible = false
     limiteavanti.rotation = 5
@@ -438,10 +438,10 @@ function scene:create(event)
     -- limitebasso.objType = "ground"
     -- physics.addBody(limitebasso, "static", {bounce = 0.0, friction = 0.3})
 
-    local contorno_bear = {-100, 50, -100, -50, 100, -50, 100, 50}
+    local contorno_bear = {-95, 50, -100, -50, 100, -50, 80, 50}
     physics.addBody(bear, "dinamic", {shape = contorno_bear}, -- Main body element
                     {
-        box = {halfWidth = 100, halfHeight = 10, x = 0, y = 60},
+        box = {halfWidth = 85, halfHeight = 10, x = -7, y = 60},
         isSensor = true
     } -- Foot sensor element
     )
