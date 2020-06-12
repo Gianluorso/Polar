@@ -368,7 +368,7 @@ function scene:create(event)
         end
         -- controllo ad ogni frame se il giocatore e' caduto
         if (bear.y > 800) then
-            audio.stop(runMusicChannel)
+            --audio.stop(runMusicChannel)
            audio.stop()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
