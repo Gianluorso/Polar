@@ -110,6 +110,11 @@ function scene:show( event )
         -- Code here runs when the scene is entirely on screen
     end
 end
+--[[local loadsave = require( "loadsave" )
+local gameSettings = {
+    highScore = 0
+ }        
+loadsave.saveTable( gameSettings, "settings.json" )]]--
 
 function scene:hide( event )
 
@@ -129,11 +134,18 @@ function scene:destroy( event )
 		playButton:removeSelf()	-- widgets must be manually removed
 		playButton = nil
     end
-        if punteggio then
+
+    if punteggio then
 		punteggio:removeSelf()	-- widgets must be manually removed
 		punteggio = nil
     end
-            if hText then
+    
+    if value then
+		value:removeSelf()	-- widgets must be manually removed
+		value = nil
+    end
+
+    if hText then
 		hText:removeSelf()	-- widgets must be manually removed
 		hText = nil
     end
