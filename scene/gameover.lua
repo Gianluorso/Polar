@@ -6,6 +6,7 @@ local scene = composer.newScene()
 -- forward declaration for widgets
 local background
 local playAgainButton
+local shownHighScoreText
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -100,7 +101,8 @@ function scene:show( event )
         end
 
         local sceneGroup = self.view
-        sceneGroup:insert( punteggio() )
+        shownHighScoreText = punteggio()
+        sceneGroup:insert( shownHighScoreText )
         
 
         
@@ -117,7 +119,10 @@ local gameSettings = {
 loadsave.saveTable( gameSettings, "settings.json" )]]--
 
 function scene:hide( event )
-
+    if shownHighScoreText then
+		shownHighScoreText:removeSelf()	-- widgets must be manually removed
+		shownHighScoreText = nil
+	end
 end
 
 function scene:destroy( event )
