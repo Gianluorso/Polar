@@ -3,7 +3,7 @@ local widget = require("widget")
 local physics = require "physics"
 
 audio.play(backgroundMusic)
-audio.stop()
+--audio.stop()
 
 physics.start()
 -- physics.setDrawMode("hybrid")
@@ -39,7 +39,7 @@ local function sensorCollide(self, event)
         if (not runMusicStarted) then
             runMusicChannel = audio.play(runMusic, {loops = -1})
             --comment the following line to enable walk sound
-            audio.setVolume(0, {channel = runMusicChannel})
+            audio.setVolume(1, {channel = runMusicChannel})
             runMusicStarted = true
         end
 
