@@ -93,6 +93,7 @@ function scene:show( event )
         local sceneGroup = self.view
         shownHighScoreText = punteggio()
         sceneGroup:insert( shownHighScoreText )
+        
 
         
 
