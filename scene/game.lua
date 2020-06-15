@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 --audio.stop()
 
 physics.start()
- --physics.setDrawMode("hybrid")
+ physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 ----score----
@@ -426,7 +426,7 @@ function scene:create(event)
     limiteavanti.rotation = 5
     physics.addBody(limiteavanti, "static", {bounce = 0.0, friction = 0.3})
 
-    local limitealto = display.newRect(600, -20, 800, 50)
+    local limitealto = display.newRect(600, -50, 800, 50)
     limitealto:setFillColor(1, 0, 0, 0.6)
     limitealto.isVisible = false
     limitealto.objType = "ground"
@@ -438,10 +438,10 @@ function scene:create(event)
     -- limitebasso.objType = "ground"
     -- physics.addBody(limitebasso, "static", {bounce = 0.0, friction = 0.3})
 
-    local contorno_bear = {-95, 50, -100, -50, 100, -50, 80, 50}
+    local contorno_bear = {-95, 50, -110, -50, 100, -50, 70, 50}
     physics.addBody(bear, "dinamic", {shape = contorno_bear}, -- Main body element
                     {
-        box = {halfWidth = 85, halfHeight = 10, x = -7, y = 60},
+        box = {halfWidth = 85, halfHeight = 10, x = -10, y = 60},
         isSensor = true
     } -- Foot sensor element
     )
