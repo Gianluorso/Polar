@@ -395,6 +395,7 @@ function scene:create(event)
         -------------splash-----------
         if (bear.y > 600) then
             if (not waterStarted) then
+                audio.setVolume(0.5, {channel = waterChannel})
                 waterChannel = audio.play(soundTable["water"])
                 waterStarted = true
             end
