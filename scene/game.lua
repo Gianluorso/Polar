@@ -154,7 +154,7 @@ function scene:create(event)
     local function scroller4(self, event)
         local speed = 6
 
-        if self.x < -2080 then
+        if self.x < -2150 then
             self.x = self.x + 4070
         else
             self.x = self.x - speed
