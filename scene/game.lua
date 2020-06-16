@@ -24,6 +24,8 @@ local runMusicChannel
 local runMusicStarted = false
 local jumpMusicChannel
 local jumpMusicStarted = false
+local waterChannel
+local waterChannel = false
 
 local bearRotation = 0
 
@@ -367,12 +369,18 @@ function scene:create(event)
             composer.gotoScene("scene.gameover")
         end
         -- controllo ad ogni frame se il giocatore e' caduto
-        if (bear.y > 800) then
+        if (bear.y > 1900) then
             --audio.stop(runMusicChannel)
            audio.stop()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
+        end
+-------------splash-----------
+        if (bear.y > 600) then
+            waterChannel = audio.play(water, {loops = -1})
+            audio.setVolume(1, {channel = waterChannel})
+            water = true
         end
 
         elapsed_time = os.difftime(os.time(),start_time)
@@ -450,7 +458,7 @@ function scene:create(event)
 
         if ("ended" == event.phase) then
             audio.stop(runMusicChannel)
-            audio.stop()
+            audio.stop(waterChannel)
             composer.removeScene("scene.game")
             composer.gotoScene("scene.menu")
         end
