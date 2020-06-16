@@ -7,6 +7,7 @@ local scene = composer.newScene()
 local background
 local playAgainButton
 local shownHighScoreText
+local newHighScore
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -98,15 +99,15 @@ function scene:show( event )
             end
             highScoreText:setFillColor( 0, 0.549, 0.713, 1 )
             
-            return highScoreText, isnNew
+            return highScoreText, isNew
         end
 
         local sceneGroup = self.view
-         shownHighScoreText, isNew = punteggio()
+        shownHighScoreText, isNew = punteggio()
         sceneGroup:insert( shownHighScoreText )
 
         if(isNew)then
-            local newHighScore = display.newText( "New", display.contentCenterX-250, 340, native.systemFontBold, 32)
+            newHighScore = display.newText( "New", display.contentCenterX-250, 340, native.systemFontBold, 32)
             newHighScore:setFillColor( 0, 0.549, 0.713, 1 )
             sceneGroup:insert( newHighScore )
         end
@@ -118,11 +119,13 @@ function scene:show( event )
         -- Code here runs when the scene is entirely on screen
     end
 end
---[[local loadsave = require( "loadsave" )
-local gameSettings = {
-    highScore = 0
- }        
-loadsave.saveTable( gameSettings, "settings.json" )]]--
+
+--reset high score
+-- local loadsave = require( "loadsave" )
+-- local gameSettings = {
+--     highScore = 0
+--  }        
+-- loadsave.saveTable( gameSettings, "settings.json" )
 
 function scene:hide( event )
     if shownHighScoreText then
@@ -164,7 +167,6 @@ function scene:destroy( event )
 		hText:removeSelf()	-- widgets must be manually removed
 		hText = nil
     end
-
 end
 
 -- Scene listener setup
