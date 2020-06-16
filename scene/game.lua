@@ -45,7 +45,7 @@ local function stopAllSounds()
     end
     if (waterStarted) then
         audio.stop(waterChannel)
-        waterStarted = false
+        --waterStarted = false
     end
 end
 
@@ -145,7 +145,7 @@ function scene:create(event)
     local function scroller(self, event)
         local speed = 3
 
-        if self.x < -2150 then
+        if self.x < -2250 then
             self.x = self.x + 4060
         else
             self.x = self.x - speed
@@ -154,7 +154,7 @@ function scene:create(event)
     local function scroller4(self, event)
         local speed = 6
 
-        if self.x < -2150 then
+        if self.x < -2250 then
             self.x = self.x + 4070
         else
             self.x = self.x - speed
@@ -394,6 +394,13 @@ function scene:create(event)
             if (not waterStarted) then
                 waterChannel = audio.play(soundTable["water"])
                 waterStarted = true
+            end
+        end
+        -------------splash reset-----------
+        if (bear.y < 400) then
+            if (waterStarted) then
+                audio.stop(waterChannel)
+                waterStarted = false
             end
         end
         -- controllo ad ogni frame se il giocatore e' caduto

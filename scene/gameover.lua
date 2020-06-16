@@ -86,6 +86,7 @@ function scene:show( event )
 -----------show highscore
         local function punteggio()
             local highScoreText
+            local isNew = false
             
             local value= tonumber(scoreText.text)
             if (loadedHighScore>value) then 
@@ -93,18 +94,22 @@ function scene:show( event )
 
             else
                 highScoreText = display.newText( value, display.contentCenterX-250, 500, native.systemFontBold, 120)
-                local new = display.newText( "New", display.contentCenterX-250, 340, native.systemFontBold, 32)
-                new:setFillColor( 0.133, 0.498, 0.788, 1 )
+                isNew = true
             end
             highScoreText:setFillColor( 0.133, 0.498, 0.788, 1 )
-            return highScoreText
-
+            
+            return highScoreText, isnNew
         end
 
         local sceneGroup = self.view
-        shownHighScoreText = punteggio()
+        local shownHighScoreText, isNew = punteggio()
         sceneGroup:insert( shownHighScoreText )
-        sceneGroup:insert( new )
+
+        if(isNew)then
+            local newHighScore = display.newText( "New", display.contentCenterX-250, 340, native.systemFontBold, 32)
+            newHighScore:setFillColor( 0.133, 0.498, 0.788, 1 )
+            sceneGroup:insert( newHighScore )
+        end
 
         
 
