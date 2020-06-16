@@ -377,6 +377,7 @@ function scene:create(event)
 
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -250) then
+            audio.rewind(backgroundMusicChannel)
             stopAllSounds()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
@@ -391,7 +392,9 @@ function scene:create(event)
         end
         -- controllo ad ogni frame se il giocatore e' caduto
         if (bear.y > 1900) then
+            audio.rewind(backgroundMusicChannel)
             stopAllSounds()
+            
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
@@ -472,6 +475,7 @@ function scene:create(event)
 
         if ("ended" == event.phase) then
             audio.stop(runMusicChannel)
+            audio.rewind(backgroundMusicChannel)
             runMusicStarted = false
             composer.removeScene("scene.game")
             composer.gotoScene("scene.menu")
