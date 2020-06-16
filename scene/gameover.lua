@@ -10,7 +10,7 @@ local shownHighScoreText
 
 function scene:create( event )
 	local sceneGroup = self.view
-    local background=display.newImageRect("img/background3.jpg", display.contentWidth*1.3, display.contentHeight*1.3)
+    local background=display.newImageRect("img/background3.png", display.contentWidth*1.3, display.contentHeight*1.3)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 
@@ -28,7 +28,7 @@ function scene:create( event )
     
             local hText = display.newText( "High Score", display.contentCenterX-250, 370, native.systemFontBold, 65)
     
-    hText:setFillColor( 0, 0, 0 )
+    hText:setFillColor( 0.133, 0.498, 0.788, 1 )
   
     local playAgainButton = widget.newButton(
         {
@@ -95,7 +95,7 @@ function scene:show( event )
                 highScoreText = display.newText( value, display.contentCenterX-250, 500, native.systemFontBold, 120)
               
             end
-            highScoreText:setFillColor( 0, 0, 0 )
+            highScoreText:setFillColor( 0.133, 0.498, 0.788, 1 )
             return highScoreText
 
         end
