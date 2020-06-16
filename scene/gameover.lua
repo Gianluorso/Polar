@@ -28,7 +28,7 @@ function scene:create( event )
     
             local hText = display.newText( "High Score", display.contentCenterX-250, 390, native.systemFontBold, 65)
     
-    hText:setFillColor( 0.133, 0.498, 0.788, 1 )
+    hText:setFillColor( 0, 0.549, 0.713, 1 )
   
     local playAgainButton = widget.newButton(
         {
@@ -41,7 +41,7 @@ function scene:create( event )
             width = 300,
             height = 100,
             cornerRadius = 45,
-            fillColor = { default={0.133, 0.498, 0.788, 1}, over={0.275, 0.847, 1} },
+            fillColor = { default={0, 0.549, 0.713, 1}, over={0, 0.694, 0.713, 1} },
             strokeColor = { default={1,1,1}, over={1,1,1} },
             strokeWidth = 0,
             labelColor = { default={ 1, 1, 1 }, over={ 1, 1, 1, 1 } },
@@ -96,7 +96,7 @@ function scene:show( event )
                 highScoreText = display.newText( value, display.contentCenterX-250, 500, native.systemFontBold, 120)
                 isNew = true
             end
-            highScoreText:setFillColor( 0.133, 0.498, 0.788, 1 )
+            highScoreText:setFillColor( 0, 0.549, 0.713, 1 )
             
             return highScoreText, isnNew
         end
@@ -107,7 +107,7 @@ function scene:show( event )
 
         if(isNew)then
             local newHighScore = display.newText( "New", display.contentCenterX-250, 340, native.systemFontBold, 32)
-            newHighScore:setFillColor( 0.133, 0.498, 0.788, 1 )
+            newHighScore:setFillColor( 0, 0.549, 0.713, 1 )
             sceneGroup:insert( newHighScore )
         end
 
@@ -160,9 +160,9 @@ function scene:destroy( event )
 		hText:removeSelf()	-- widgets must be manually removed
 		hText = nil
     end
-    if new then
-		new:removeSelf()	-- widgets must be manually removed
-		new = nil
+    if newHighScore then
+		newHighScore:removeSelf()	-- widgets must be manually removed
+		newHighScore = nil
     end
 end
 

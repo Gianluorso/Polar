@@ -404,7 +404,7 @@ function scene:create(event)
             end
         end
         -- controllo ad ogni frame se il giocatore e' caduto
-        if (bear.y > 1900) then
+        if (bear.y > 5300) then
             audio.rewind(backgroundMusicChannel)
             stopAllSounds()
             
