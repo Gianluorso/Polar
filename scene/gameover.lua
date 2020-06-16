@@ -17,11 +17,15 @@ function scene:create( event )
 
     -- Function to handle button events
     local function handleButtonEvent( event )
-    
-        if ( "ended" == event.phase ) then
-            scoreText:removeSelf()
+        local function delayTime(event)
             composer.gotoScene( "scene.game" )
+        end    
+        if ( "ended" == event.phase )  then
+            timer.performWithDelay( 2, delayTime )
+            audio.play(soundTable["click"])
+
         end
+        
     end
         local gameover = display.newText( "GAME OVER", display.contentCenterX-250, 130, native.systemFontBold, 85)
     

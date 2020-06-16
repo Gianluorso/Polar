@@ -17,10 +17,15 @@ function scene:create( event )
 
     -- Function to handle button events
     local function handleButtonEvent( event )
-    
-        if ( "ended" == event.phase ) then
+        local function delayTime(event)
             composer.gotoScene( "scene.game" )
+        end    
+        if ( "ended" == event.phase )  then
+            timer.performWithDelay( 2, delayTime )
+            audio.play(soundTable["click"])
+
         end
+        
     end
     local title = display.newText( "POLAR", display.contentCenterX, 150, native.systemFontBold, 128)
     
