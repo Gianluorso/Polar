@@ -2,16 +2,17 @@ local composer = require("composer")
 local widget = require("widget")
 local physics = require "physics"
 
-local backgroundMusicChannel = audio.play(soundTable["background"], {loops = -1})
---audio.stop()
+local backgroundMusicChannel =
+    audio.play(soundTable["background"], {loops = -1})
+-- audio.stop()
 
 physics.start()
- --physics.setDrawMode("hybrid")
+-- physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 ----score----
-scoreText = display.newText( "0", display.contentCenterX, 30, native.systemFont, 36 )
-
+scoreText = display.newText("0", display.contentCenterX, 30, native.systemFont,
+                            36)
 
 local sfondo3
 local sfondo2
@@ -34,15 +35,15 @@ trick_score = 0
 
 local function stopAllSounds()
     audio.stop(backgroundMusicChannel)
-    if(runMusicStarted) then
+    if (runMusicStarted) then
         audio.stop(runMusicChannel)
         runMusicStarted = false
     end
-    if(jumpMusicStarted) then
+    if (jumpMusicStarted) then
         audio.stop(jumpMusicChannel)
         jumpMusicStarted = false
     end
-    if(waterStarted) then
+    if (waterStarted) then
         audio.stop(waterChannel)
         waterStarted = false
     end
@@ -55,7 +56,7 @@ local function sensorCollide(self, event)
     if (event.selfElement == 2 and event.other.objType == "ground") then
         if (not runMusicStarted) then
             runMusicChannel = audio.play(soundTable["run"], {loops = -1})
-            --comment the following line to enable walk sound
+            -- comment the following line to enable walk sound
             audio.setVolume(1, {channel = runMusicChannel})
             runMusicStarted = true
         end
@@ -90,7 +91,7 @@ function scene:create(event)
                                               display.contentHeight)
     sfondo3_next.anchorX = 0
     sfondo3_next.anchorY = 0
-    sfondo3_next.x = - 200
+    sfondo3_next.x = -200
     sfondo3_next.y = display.contentHeight - sfondo3_next.height
 
     local sfondo2 = display.newImageRect("img/sfondo2.png",
@@ -105,22 +106,20 @@ function scene:create(event)
                                               display.contentHeight)
     sfondo2_next.anchorX = 0
     sfondo2_next.anchorY = 0
-    sfondo2_next.x = - 200
+    sfondo2_next.x = -200
     sfondo2_next.y = display.contentHeight - sfondo2_next.height
 
-    local sfondo1 = display.newImageRect("img/sfondo1.png",
-                                         display.contentWidth * 2,
+    local sfondo1 = display.newImageRect("img/sfondo1.png", 2040,
                                          display.contentHeight)
     sfondo1.anchorX = 0
     sfondo1.anchorY = 0
-    sfondo1.x = display.contentWidth - 200
+    sfondo1.x = -1000
     sfondo1.y = display.contentHeight - sfondo1.height
-    local sfondo1_next = display.newImageRect("img/sfondo1.png",
-                                              display.contentWidth * 2,
+    local sfondo1_next = display.newImageRect("img/sfondo1.png", 2040,
                                               display.contentHeight)
     sfondo1_next.anchorX = 0
     sfondo1_next.anchorY = 0
-    sfondo1_next.x = - 200
+    sfondo1_next.x = 1030
     sfondo1_next.y = display.contentHeight - sfondo1_next.height
 
     local function scroller3(self, event)
@@ -146,8 +145,8 @@ function scene:create(event)
     local function scroller(self, event)
         local speed = 3
 
-        if self.x < -(display.contentWidth + 200 - speed * 2) then
-            self.x = display.contentWidth - 200
+        if self.x < -2150 then
+            self.x = self.x + 4060
         else
             self.x = self.x - speed
         end
@@ -155,63 +154,65 @@ function scene:create(event)
     local function scroller4(self, event)
         local speed = 6
 
-        if self.x < -(display.contentWidth + 200 - speed * 2) then
-            self.x = display.contentWidth - 200
+        if self.x < -2080 then
+            self.x = self.x + 4070
         else
             self.x = self.x - speed
         end
     end
 
-    local ground = display.newImageRect("img/ground.png", display.contentWidth * 2, display.contentHeight)
+    local ground = display.newImageRect("img/ground.png", 2040,
+                                        display.contentHeight)
     ground.anchorX = 0
     ground.anchorY = 0
-    ground.x = display.contentWidth - 200
+    ground.x = -1000
     ground.y = display.contentHeight - ground.height
-    local ground_next = display.newImageRect("img/ground.png", display.contentWidth * 2, display.contentHeight)
-                                                  
+    local ground_next = display.newImageRect("img/ground.png", 2040,
+                                             display.contentHeight)
 
     ground_next.anchorX = 0
     ground_next.anchorY = 0
-    ground_next.x = - 200
+    ground_next.x = 1040
     ground_next.y = display.contentHeight - ground_next.height
-
-
 
     --[[local ground = display.newImage("img/ground.png")
     ground.x = 160
     ground.y = 700
         ground.objType = "ground"
-    physics.addBody(ground, "static", {bounce = 0.0, friction = 0.3})]]--
-    
+    physics.addBody(ground, "static", {bounce = 0.0, friction = 0.3})]] --
 
     -- Platform
     local function createPlatform(size, posX, posY)
-        local img ="img/platform2.png"
+        local img = "img/platform2.png"
         local xOffset = 5
-        local bboxHeight = 48 --height of platform collider
-        if(size == 3) then
+        local bboxHeight = 48 -- height of platform collider
+        if (size == 3) then
             img = "img/platform1.png"
             bboxHeight = 48
             xOffset = 0
-        elseif(size == 4) then
+        elseif (size == 4) then
             img = "img/platform3.png"
             bboxHeight = 49
             xOffset = 0
         end
-        
+
         local newPlatform = display.newImage(img)
         newPlatform.x = posX
         newPlatform.y = posY + 100
-    
+
         newPlatform:setFillColor(1, 1, 1)
         newPlatform.objType = "ground"
         local scale = size
         physics.addBody(newPlatform, "kinematic", {
             bounce = 0.0,
             friction = 0.3,
-            shape = {-60 * scale + xOffset, 100, 60 * scale + xOffset, 100, 60 * scale + xOffset, -bboxHeight, -60 * scale + xOffset, -bboxHeight}
+            shape = {
+                -60 * scale + xOffset, 100, 60 * scale + xOffset, 100,
+                60 * scale + xOffset, -bboxHeight, -60 * scale + xOffset,
+                -bboxHeight
+            }
         })
-        --newPlatform.xScale = scale
+        -- newPlatform.xScale = scale
         return newPlatform
     end
 
@@ -221,29 +222,31 @@ function scene:create(event)
     local maxPlatformSpeed = 5
     local platformNormal = createPlatform(3, platformDistance * 3, 400)
     local platformSmall = createPlatform(2, platformDistance * 2, 450)
-    local platformBig = createPlatform(4, platformDistance, display.contentCenterY + 100)
+    local platformBig = createPlatform(4, platformDistance,
+                                       display.contentCenterY + 100)
     local fallingSpeed = 0.1
     local platformSmallFalling = false
     local platformNormalFalling = false
     local platformBigFalling = false
-    
+
     local function checkAndRepositionPlatform(platform, isFalling)
-        if(platform.x < - 600) then
+        if (platform.x < -600) then
             platform.x = platformDistance * 2
             platform.y = 550 - math.random(150)
 
-            if(platform.y < 450) then
+            if (platform.y < 450) then
                 isFalling = true
             else
                 isFalling = false
             end
 
-            if(platformDistance < maxPlatformDistance) then
+            if (platformDistance < maxPlatformDistance) then
                 platformDistance = platformDistance + 4
             end
 
-            if(platformSpeed < maxPlatformSpeed) then
-                platformSpeed = platformSpeed + ((maxPlatformSpeed - platformSpeed) / 100)
+            if (platformSpeed < maxPlatformSpeed) then
+                platformSpeed = platformSpeed +
+                                    ((maxPlatformSpeed - platformSpeed) / 100)
             end
         end
         return isFalling
@@ -294,7 +297,7 @@ function scene:create(event)
     --[[local rainbowColors = {
         {255, 0, 0}, {255, 165, 0}, {255, 255, 0}, {0, 180, 0}, {0, 0, 255},
         {75, 0, 130}, {238, 130, 238}
-    }]]--
+    }]] --
     local rainbowColors = {
         {0, 165, 255}, {0, 255, 255}, {0, 108, 255}, {200, 255, 255}
     }
@@ -336,7 +339,7 @@ function scene:create(event)
                 flipText = "BackFlip!"
             end
 
-            if(isTextShown) then
+            if (isTextShown) then
                 isTextShown = false
                 display.remove(flipTextShown)
             end
@@ -347,7 +350,7 @@ function scene:create(event)
             isTextShown = true
 
             local function hideText(event)
-                if(isTextShown) then
+                if (isTextShown) then
                     isTextShown = false
                     display.remove(flipTextShown)
                 end
@@ -356,22 +359,25 @@ function scene:create(event)
             timer.performWithDelay(2000, hideText)
         end
 
-        --move platforms
+        -- move platforms
         platformSmall.x = platformSmall.x - platformSpeed
         platformNormal.x = platformNormal.x - platformSpeed
         platformBig.x = platformBig.x - platformSpeed
 
-        platformSmallFalling = checkAndRepositionPlatform(platformSmall, platformSmallFalling)
-        platformNormalFalling = checkAndRepositionPlatform(platformNormal, platformNormalFalling)
-        platformBigFalling = checkAndRepositionPlatform(platformBig, platformBigFalling)
+        platformSmallFalling = checkAndRepositionPlatform(platformSmall,
+                                                          platformSmallFalling)
+        platformNormalFalling = checkAndRepositionPlatform(platformNormal,
+                                                           platformNormalFalling)
+        platformBigFalling = checkAndRepositionPlatform(platformBig,
+                                                        platformBigFalling)
 
-        if(platformSmallFalling) then
+        if (platformSmallFalling) then
             platformSmall.y = platformSmall.y + fallingSpeed
         end
-        if(platformNormalFalling) then
+        if (platformNormalFalling) then
             platformNormal.y = platformNormal.y + fallingSpeed
         end
-        if(platformBigFalling) then
+        if (platformBigFalling) then
             platformBig.y = platformBig.y + fallingSpeed
         end
 
@@ -384,7 +390,7 @@ function scene:create(event)
         end
         -------------splash-----------
         if (bear.y > 600) then
-            if(not waterStarted) then
+            if (not waterStarted) then
                 waterChannel = audio.play(soundTable["water"])
                 waterStarted = true
             end
@@ -397,7 +403,7 @@ function scene:create(event)
             composer.gotoScene("scene.gameover")
         end
 
-        elapsed_time = os.difftime(os.time(),start_time)
+        elapsed_time = os.difftime(os.time(), start_time)
         scoreText.text = elapsed_time + trick_score
     end
     sfondo3.enterFrame = scroller3
@@ -431,16 +437,13 @@ function scene:create(event)
     sceneGroup:insert(sfondo2_next)
     sceneGroup:insert(sfondo1)
     sceneGroup:insert(sfondo1_next)
-    
+
     sceneGroup:insert(platformNormal)
     sceneGroup:insert(platformSmall)
     sceneGroup:insert(platformBig)
     sceneGroup:insert(bear)
     sceneGroup:insert(ground)
     sceneGroup:insert(ground_next)
-
-
-
 
     local limiteavanti = display.newRect(950, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
@@ -496,7 +499,7 @@ function scene:create(event)
     reset.x = 800
     reset.y = 100
 
-    sceneGroup:insert(reset)]]--
+    sceneGroup:insert(reset)]] --
 
 end
 
@@ -539,7 +542,7 @@ function scene:destroy(event)
         ground:removeSelf()
         ground = nil
     end
-        if ground_next then
+    if ground_next then
         ground_next:removeSelf()
         ground_next = nil
     end
