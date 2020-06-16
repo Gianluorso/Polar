@@ -102,7 +102,7 @@ function scene:show( event )
         end
 
         local sceneGroup = self.view
-        local shownHighScoreText, isNew = punteggio()
+         shownHighScoreText, isNew = punteggio()
         sceneGroup:insert( shownHighScoreText )
 
         if(isNew)then
@@ -128,7 +128,11 @@ function scene:hide( event )
     if shownHighScoreText then
 		shownHighScoreText:removeSelf()	-- widgets must be manually removed
 		shownHighScoreText = nil
-	end
+    end
+    if newHighScore then
+		newHighScore:removeSelf()	-- widgets must be manually removed
+		newHighScore = nil
+    end
 end
 
 function scene:destroy( event )
@@ -160,10 +164,7 @@ function scene:destroy( event )
 		hText:removeSelf()	-- widgets must be manually removed
 		hText = nil
     end
-    if newHighScore then
-		newHighScore:removeSelf()	-- widgets must be manually removed
-		newHighScore = nil
-    end
+
 end
 
 -- Scene listener setup
