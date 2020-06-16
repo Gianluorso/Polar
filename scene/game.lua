@@ -34,19 +34,20 @@ start_time = 0
 trick_score = 0
 
 local function stopAllSounds()
-    audio.stop(backgroundMusicChannel)
-    if (runMusicStarted) then
-        audio.stop(runMusicChannel)
-        runMusicStarted = false
-    end
-    if (jumpMusicStarted) then
-        audio.stop(jumpMusicChannel)
-        jumpMusicStarted = false
-    end
-    if (waterStarted) then
-        audio.stop(waterChannel)
-        --waterStarted = false
-    end
+    audio.stop()
+    -- audio.stop(backgroundMusicChannel)
+    -- if (runMusicStarted) then
+    --     audio.stop(runMusicChannel)
+    --     runMusicStarted = false
+    -- end
+    -- if (jumpMusicStarted) then
+    --     audio.stop(jumpMusicChannel)
+    --     jumpMusicStarted = false
+    -- end
+    -- if (waterStarted) then
+    --     audio.stop(waterChannel)
+    --     --waterStarted = false
+    -- end
 end
 
 -- bearSheet collision handler
