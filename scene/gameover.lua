@@ -26,7 +26,7 @@ function scene:create( event )
     
     gameover:setFillColor( 1, 1, 1 )
     
-            local hText = display.newText( "High Score", display.contentCenterX-250, 370, native.systemFontBold, 65)
+            local hText = display.newText( "High Score", display.contentCenterX-250, 390, native.systemFontBold, 65)
     
     hText:setFillColor( 0.133, 0.498, 0.788, 1 )
   
@@ -50,7 +50,7 @@ function scene:create( event )
         }
     )
     playAgainButton.x = display.contentCenterX + 300
-    playAgainButton.y = display.contentCenterY+200
+    playAgainButton.y = display.contentCenterY+125
     
     sceneGroup:insert( background )
     sceneGroup:insert( gameover )
@@ -93,7 +93,8 @@ function scene:show( event )
 
             else
                 highScoreText = display.newText( value, display.contentCenterX-250, 500, native.systemFontBold, 120)
-              
+                local new = display.newText( "New", display.contentCenterX-250, 340, native.systemFontBold, 32)
+                new:setFillColor( 0.133, 0.498, 0.788, 1 )
             end
             highScoreText:setFillColor( 0.133, 0.498, 0.788, 1 )
             return highScoreText
@@ -103,7 +104,7 @@ function scene:show( event )
         local sceneGroup = self.view
         shownHighScoreText = punteggio()
         sceneGroup:insert( shownHighScoreText )
-        
+        sceneGroup:insert( new )
 
         
 
@@ -153,6 +154,10 @@ function scene:destroy( event )
     if hText then
 		hText:removeSelf()	-- widgets must be manually removed
 		hText = nil
+    end
+    if new then
+		new:removeSelf()	-- widgets must be manually removed
+		new = nil
     end
 end
 
