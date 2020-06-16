@@ -11,8 +11,10 @@ physics.start()
 
 local scene = composer.newScene()
 ----score----
-scoreText = display.newText("0", display.contentCenterX, 30, native.systemFont,
-                            36)
+if (scoreText == nil) then
+    scoreText = display.newText("0", display.contentCenterX, 30,
+                                native.systemFont, 36)
+end
 
 local sfondo3
 local sfondo2
@@ -408,7 +410,7 @@ function scene:create(event)
         if (bear.y > 5300) then
             audio.rewind(backgroundMusicChannel)
             stopAllSounds()
-            
+
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")

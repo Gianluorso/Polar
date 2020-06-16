@@ -20,7 +20,7 @@ function scene:create( event )
         local function delayTime(event)
             composer.gotoScene( "scene.game" )
         end    
-        if ( "ended" == event.phase )  then
+        if ( "began" == event.phase )  then
             timer.performWithDelay( 2, delayTime )
             audio.play(soundTable["click"])
 
