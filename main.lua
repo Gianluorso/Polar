@@ -1,15 +1,9 @@
-backgroundMusic = audio.loadStream("sound/background.mp3")
-jumpMusic = audio.loadStream("sound/jump.mp3")
-runMusic = audio.loadStream("sound/ice.mp3")
-clickMusic = audio.loadStream("sound/click.mp3")
-water =audio.loadStream("sound/splash.mp3")
-
 soundTable = {
- 
+    background = audio.loadStream("sound/background.mp3"),
     jump = audio.loadSound( "sound/jump.mp3" ),
-    click = audio.loadSound( "sound/click.mp3" ),
-    ice = audio.loadSound( "sound/ice.mp3" ),
-    water=audio.loadSound("sound/splash.mp3"),
+    click = audio.loadSound( "sound/click.mp3" ), --menu click
+    run = audio.loadStream("sound/ice.mp3"),
+    water = audio.loadSound("sound/splash.mp3")
 }
 local composer = require "composer"
 

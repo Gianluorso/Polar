@@ -2,7 +2,7 @@ local composer = require("composer")
 local widget = require("widget")
 local physics = require "physics"
 
-audio.play(backgroundMusic)
+local backgroundMusicChannel = audio.play(soundTable["background"], {loops = -1})
 --audio.stop()
 
 physics.start()
@@ -25,13 +25,28 @@ local runMusicStarted = false
 local jumpMusicChannel
 local jumpMusicStarted = false
 local waterChannel
-local waterChannel = false
+local waterStarted = false
 
 local bearRotation = 0
 
 start_time = 0
 trick_score = 0
 
+local function stopAllSounds()
+    audio.stop(backgroundMusicChannel)
+    if(runMusicStarted) then
+        audio.stop(runMusicChannel)
+        runMusicStarted = false
+    end
+    if(jumpMusicStarted) then
+        audio.stop(jumpMusicChannel)
+        jumpMusicStarted = false
+    end
+    if(waterStarted) then
+        audio.stop(waterChannel)
+        waterStarted = false
+    end
+end
 
 -- bearSheet collision handler
 local function sensorCollide(self, event)
@@ -39,7 +54,7 @@ local function sensorCollide(self, event)
     -- Confirm that the colliding elements are the foot sensor and a ground object
     if (event.selfElement == 2 and event.other.objType == "ground") then
         if (not runMusicStarted) then
-            runMusicChannel = audio.play(runMusic, {loops = -1})
+            runMusicChannel = audio.play(soundTable["run"], {loops = -1})
             --comment the following line to enable walk sound
             audio.setVolume(1, {channel = runMusicChannel})
             runMusicStarted = true
@@ -262,8 +277,8 @@ function scene:create(event)
 
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
-            --audio.stop(jumpMusicChannel)
-            jumpMusicChannel = audio.play(jumpMusic)
+            jumpMusicChannel = audio.play(soundTable["jump"])
+            jumpMusicStarted = true
 
             bear.gravityScale = 3.5
             bear:setLinearVelocity(17, -695)
@@ -362,25 +377,24 @@ function scene:create(event)
 
         -- controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -250) then
-            audio.stop(runMusicChannel)
-           audio.stop()
+            stopAllSounds()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
+        end
+        -------------splash-----------
+        if (bear.y > 600) then
+            if(not waterStarted) then
+                waterChannel = audio.play(soundTable["water"])
+                waterStarted = true
+            end
         end
         -- controllo ad ogni frame se il giocatore e' caduto
         if (bear.y > 1900) then
-            --audio.stop(runMusicChannel)
-           audio.stop()
+            stopAllSounds()
             if (isTextShown) then display.remove(flipTextShown) end
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
-        end
--------------splash-----------
-        if (bear.y > 600) then
-            waterChannel = audio.play(water, {loops = -1})
-            audio.setVolume(1, {channel = waterChannel})
-            water = true
         end
 
         elapsed_time = os.difftime(os.time(),start_time)
@@ -458,7 +472,7 @@ function scene:create(event)
 
         if ("ended" == event.phase) then
             audio.stop(runMusicChannel)
-            audio.stop(waterChannel)
+            runMusicStarted = false
             composer.removeScene("scene.game")
             composer.gotoScene("scene.menu")
         end
