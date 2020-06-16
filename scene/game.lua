@@ -6,7 +6,7 @@ audio.play(backgroundMusic)
 --audio.stop()
 
 physics.start()
- physics.setDrawMode("hybrid")
+ --physics.setDrawMode("hybrid")
 
 local scene = composer.newScene()
 ----score----
@@ -456,7 +456,7 @@ function scene:create(event)
         end
     end
 
-    local reset = widget.newButton({
+    --[[local reset = widget.newButton({
         label = "Reset",
         onEvent = handleButtonEvent,
         emboss = false,
@@ -474,7 +474,7 @@ function scene:create(event)
     reset.x = 800
     reset.y = 100
 
-    sceneGroup:insert(reset)
+    sceneGroup:insert(reset)]]--
 
 end
 
