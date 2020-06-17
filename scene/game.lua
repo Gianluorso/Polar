@@ -263,7 +263,7 @@ function scene:create(event)
         start = 1,
         loopCount = 0,
         loopDirection = "forward",
-        time = 800
+        time = 1200
     }
 
     local bear = display.newSprite(bearSheet, runningSeqs)
