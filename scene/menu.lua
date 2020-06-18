@@ -15,7 +15,7 @@ function scene:create( event )
     local sceneGroup = self.view
     
     --inserimento background
-    local background=display.newImageRect("img/background1.jpg", display.contentWidth*1.2, display.contentHeight*1.2)
+    local background=display.newImageRect("img/background_menu.jpg", display.contentWidth*1.2, display.contentHeight*1.2)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 

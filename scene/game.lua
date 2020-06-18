@@ -1,25 +1,12 @@
+--caricamento librerie della scena
 local composer = require("composer")
 local widget = require("widget")
 local physics = require "physics"
 
-local backgroundMusicChannel =
-    audio.play(soundTable["background"], {loops = -1})
--- audio.stop()
-
-physics.start()
--- physics.setDrawMode("hybrid")
-
-local scene = composer.newScene()
-----score----
-if (scoreText == nil) then
-    scoreText = display.newText("0", display.contentCenterX, 30,
-                                native.systemFont, 36)
-end
-
+--dichiarazione variabili
 local sfondo3
 local sfondo2
 local sfondo1
-
 local ground
 local bearSheet
 local bear
@@ -29,12 +16,30 @@ local jumpMusicChannel
 local jumpMusicStarted = false
 local waterChannel
 local waterStarted = false
-
 local bearRotation = 0
 
+
+--creazione canale musica
+local backgroundMusicChannel =
+    audio.play(soundTable["music"], {loops = -1})
+    -- audio.stop()
+
+--avvio della fisica
+physics.start()
+-- physics.setDrawMode("hybrid")
+
+local scene = composer.newScene()
+
+--contatore punteggio
+if (scoreText == nil) then
+    scoreText = display.newText("0", display.contentCenterX, 30, native.systemFont, 36)
+end
+
+--altre variabili
 start_time = 0
 trick_score = 0
 
+--funzione per fermare tutti i  suoni
 local function stopAllSounds()
     audio.stop()
     -- audio.stop(backgroundMusicChannel)
@@ -52,23 +57,19 @@ local function stopAllSounds()
     -- end
 end
 
--- bearSheet collision handler
+--sensore orso
 local function sensorCollide(self, event)
 
-    -- Confirm that the colliding elements are the foot sensor and a ground object
+    --controllo sonoro della corsa dell'orso
     if (event.selfElement == 2 and event.other.objType == "ground") then
         if (not runMusicStarted) then
             runMusicChannel = audio.play(soundTable["run"], {loops = -1})
-            -- comment the following line to enable walk sound
             audio.setVolume(1, {channel = runMusicChannel})
             runMusicStarted = true
         end
-
-        -- Foot sensor has entered (overlapped) a ground object
         if (event.phase == "began") then
             self.sensorOverlaps = self.sensorOverlaps + 1
             audio.resume(runMusicChannel)
-            -- Foot sensor has exited a ground object
         elseif (event.phase == "ended") then
             self.sensorOverlaps = self.sensorOverlaps - 1
             audio.pause(runMusicChannel)
@@ -76,12 +77,15 @@ local function sensorCollide(self, event)
     end
 end
 
+--elementi visualizzati nella scena
 function scene:create(event)
+
+    --avvio time per il punteggio
     start_time = os.time()
 
-    physics.start()
     local sceneGroup = self.view
 
+    --creazione sfondo attraverso 3 layers
     local sfondo3 = display.newImageRect("img/sfondo3.png",
                                          display.contentWidth * 2,
                                          display.contentHeight)
@@ -125,6 +129,7 @@ function scene:create(event)
     sfondo1_next.x = 1030
     sfondo1_next.y = display.contentHeight - sfondo1_next.height
 
+    --animazione sfondo
     local function scroller3(self, event)
         local speed = 1
 
@@ -164,6 +169,7 @@ function scene:create(event)
         end
     end
 
+    --aggiunta layer acqua
     local ground = display.newImageRect("img/ground.png", 2040,
                                         display.contentHeight)
     ground.anchorX = 0
@@ -178,17 +184,11 @@ function scene:create(event)
     ground_next.x = 1040
     ground_next.y = display.contentHeight - ground_next.height
 
-    --[[local ground = display.newImage("img/ground.png")
-    ground.x = 160
-    ground.y = 700
-        ground.objType = "ground"
-    physics.addBody(ground, "static", {bounce = 0.0, friction = 0.3})]] --
-
-    -- Platform
+    --creazione piattaforme di ghiaccio
     local function createPlatform(size, posX, posY)
         local img = "img/platform2.png"
         local xOffset = 5
-        local bboxHeight = 48 -- height of platform collider
+        local bboxHeight = 48
         if (size == 3) then
             img = "img/platform1.png"
             bboxHeight = 48
@@ -199,11 +199,11 @@ function scene:create(event)
             xOffset = 0
         end
 
-        local newPlatform = display.newImage(img)
+        local newPlatform = display.newImage( img )
         newPlatform.x = posX
         newPlatform.y = posY + 100
 
-        newPlatform:setFillColor(1, 1, 1)
+        newPlatform:setFillColor ( 1, 1, 1 )
         newPlatform.objType = "ground"
         local scale = size
         physics.addBody(newPlatform, "kinematic", {
@@ -215,24 +215,23 @@ function scene:create(event)
                 -bboxHeight
             }
         })
-        -- newPlatform.xScale = scale
         return newPlatform
     end
-
+    --animazione e produzione piattaforme
     local platformDistance = 600
     local maxPlatformDistance = 1200
     local platformSpeed = 2
     local maxPlatformSpeed = 5
-    local platformNormal = createPlatform(3, platformDistance * 3, 400)
-    local platformSmall = createPlatform(2, platformDistance * 2, 450)
-    local platformBig = createPlatform(4, platformDistance,
-                                       display.contentCenterY + 100)
+    local platformNormal = createPlatform( 3, platformDistance * 3, 400 )
+    local platformSmall = createPlatform( 2, platformDistance * 2, 450 )
+    local platformBig = createPlatform( 4, platformDistance,
+                                       display.contentCenterY + 100 )
     local fallingSpeed = 0.1
     local platformSmallFalling = false
     local platformNormalFalling = false
     local platformBigFalling = false
 
-    local function checkAndRepositionPlatform(platform, isFalling)
+    local function checkAndRepositionPlatform( platform, isFalling )
         if (platform.x < -600) then
             platform.x = platformDistance * 2
             platform.y = 550 - math.random(150)
@@ -255,6 +254,7 @@ function scene:create(event)
         return isFalling
     end
 
+    --animazione orso
     local opt = {numFrames = 8, width = 512, height = 512}
     local bearSheet = graphics.newImageSheet("img/bear.png", opt)
 
@@ -277,10 +277,11 @@ function scene:create(event)
 
     bear:play()
 
-    -- Associate collision handler function with character
+    --collisioni tra orso e ambiente
     bear.collision = sensorCollide
     bear:addEventListener("collision")
-
+    
+    --salto
     local function onTouch(event)
         if (event.phase == "began" and bear.sensorOverlaps > 0) then
             jumpMusicChannel = audio.play(soundTable["jump"])
@@ -295,21 +296,17 @@ function scene:create(event)
         end
     end
 
+
+    --scritta animata per frontflip e backflip
     local flipTextShown
     local isTextShown = false
-    --[[local rainbowColors = {
-        {255, 0, 0}, {255, 165, 0}, {255, 255, 0}, {0, 180, 0}, {0, 0, 255},
-        {75, 0, 130}, {238, 130, 238}
-    }]] --
     local rainbowColors = {
         {0, 165, 255}, {0, 255, 255}, {0, 108, 255}, {200, 255, 255}
     }
     local rainbowRepetitions = 0
     local rainbowColorIndex = 1
 
-    -- executex every frame
     local function on_frame(event)
-        -- rainbow color
         if (isTextShown) then
             local textR = rainbowColors[rainbowColorIndex][1]
             local textG = rainbowColors[rainbowColorIndex][2]
@@ -319,7 +316,6 @@ function scene:create(event)
                 rainbowRepetitions = 0
                 rainbowColorIndex = (rainbowColorIndex + 1) %
                                         table.getn(rainbowColors)
-                -- apparently arrays in lua starts from 1 :/
                 if (rainbowColorIndex == 0) then
                     rainbowColorIndex = rainbowColorIndex + 1
                 end
@@ -327,7 +323,7 @@ function scene:create(event)
             flipTextShown:setFillColor(textR / 255.50, textG / 255.50,
                                        textB / 255.50)
         end
-        -- check for frontflip or backflip
+
         local bearActualRotation = bear.rotation
         if (math.abs(math.abs(bearRotation) - math.abs(bearActualRotation)) >=
             350) then
@@ -362,7 +358,7 @@ function scene:create(event)
             timer.performWithDelay(2000, hideText)
         end
 
-        -- move platforms
+        --spostamento piattaforme
         platformSmall.x = platformSmall.x - platformSpeed
         platformNormal.x = platformNormal.x - platformSpeed
         platformBig.x = platformBig.x - platformSpeed
@@ -384,7 +380,7 @@ function scene:create(event)
             platformBig.y = platformBig.y + fallingSpeed
         end
 
-        -- controllo ad ogni frame se il giocatore e' rimasto indietro
+        --controllo ad ogni frame se il giocatore e' rimasto indietro
         if (bear.x < -250) then
             audio.rewind(backgroundMusicChannel)
             stopAllSounds()
@@ -392,7 +388,7 @@ function scene:create(event)
             composer.removeScene("scene.game")
             composer.gotoScene("scene.gameover")
         end
-        -------------splash-----------
+        --suono caduta in acqua
         if (bear.y > 600) then
             if (not waterStarted) then
                 audio.setVolume(0.5, {channel = waterChannel})
@@ -400,14 +396,13 @@ function scene:create(event)
                 waterStarted = true
             end
         end
-        -------------splash reset-----------
         if (bear.y < 400) then
             if (waterStarted) then
                 audio.stop(waterChannel)
                 waterStarted = false
             end
         end
-        -- controllo ad ogni frame se il giocatore e' caduto
+        --controllo ad ogni frame se il giocatore e' caduto
         if (bear.y > 5300) then
             audio.rewind(backgroundMusicChannel)
             stopAllSounds()
@@ -420,6 +415,7 @@ function scene:create(event)
         elapsed_time = os.difftime(os.time(), start_time)
         scoreText.text = elapsed_time + trick_score
     end
+    --loop sfondo e acqua
     sfondo3.enterFrame = scroller3
     Runtime:addEventListener("enterFrame", sfondo3)
     sfondo3_next.enterFrame = scroller3
@@ -445,6 +441,7 @@ function scene:create(event)
     Runtime:addEventListener("enterFrame", on_frame)
 
     Runtime:addEventListener("touch", onTouch)
+    --ordine degli elementi attraverso sceneGroup
     sceneGroup:insert(sfondo3)
     sceneGroup:insert(sfondo3_next)
     sceneGroup:insert(sfondo2)
@@ -459,12 +456,14 @@ function scene:create(event)
     sceneGroup:insert(ground)
     sceneGroup:insert(ground_next)
 
+    --blocco invisibile che limita l'avanzamento dell'orso
     local limiteavanti = display.newRect(950, 350, 250, 650)
     limiteavanti:setFillColor(1, 0, 0, 0.6)
     limiteavanti.isVisible = false
     limiteavanti.rotation = 5
     physics.addBody(limiteavanti, "static", {bounce = 0.0, friction = 0.3})
 
+    --blocco invisibile che limita il salto dell'orso
     local limitealto = display.newRect(600, -50, 800, 50)
     limitealto:setFillColor(1, 0, 0, 0.6)
     limitealto.isVisible = false
@@ -477,14 +476,16 @@ function scene:create(event)
     -- limitebasso.objType = "ground"
     -- physics.addBody(limitebasso, "static", {bounce = 0.0, friction = 0.3})
 
+    --dimensione orso
     local contorno_bear = {-95, 50, -110, -50, 100, -50, 70, 50}
-    physics.addBody(bear, "dinamic", {shape = contorno_bear}, -- Main body element
+    physics.addBody(bear, "dinamic", {shape = contorno_bear},
                     {
-        box = {halfWidth = 85, halfHeight = 10, x = -10, y = 60},
-        isSensor = true
-    } -- Foot sensor element
+                    --sensore contatto terreno
+                    box = {halfWidth = 85, halfHeight = 10, x = -10, y = 60},
+                    isSensor = true
+                    }
     )
-    -- Function to handle button events
+   --reset della musica di background
     local function handleButtonEvent(event)
 
         if ("ended" == event.phase) then
@@ -522,32 +523,36 @@ function scene:show(event) end
 
 function scene:hide(event) end
 
+--funzione con la quale eliminare gli elementi al cambio di scena
 function scene:destroy(event)
     local sceneGroup = self.view
-
-    -- Removes all the runtime event listeners
     Runtime._functionListeners = nil
 
     if sfondo3 then
         sfondo3:removeSelf()
         sfondo3 = nil
     end
+
     if sfondo3_next then
         sfondo3_next:removeSelf()
         sfondo3_next = nil
     end
+
     if sfondo2 then
         sfondo2:removeSelf()
         sfondo2 = nil
     end
+
     if sfondo2_next then
         sfondo2_next:removeSelf()
         sfondo2_next = nil
     end
+
     if sfondo1 then
         sfondo1:removeSelf()
         sfondo1 = nil
     end
+
     if sfondo1_next then
         sfondo1_next:removeSelf()
         sfondo1_next = nil
@@ -557,6 +562,7 @@ function scene:destroy(event)
         ground:removeSelf()
         ground = nil
     end
+
     if ground_next then
         ground_next:removeSelf()
         ground_next = nil
@@ -578,7 +584,7 @@ function scene:destroy(event)
     end
 
     if reset then
-        reset:removeSelf() -- widgets must be manually removed
+        reset:removeSelf() 
         reset = nil
     end
 
@@ -588,8 +594,7 @@ function scene:destroy(event)
     sceneGroup = nil
 end
 
--- Scene listener setup
-
+--ascolto eventi nelle varie funzioni
 scene:addEventListener("create", scene)
 scene:addEventListener("show", scene)
 scene:addEventListener("hide", scene)
