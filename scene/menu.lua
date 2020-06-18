@@ -5,7 +5,7 @@ local scene = composer.newScene()
 -- forward declaration for widgets
 local background
 local playButton
-
+local logol
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -13,7 +13,9 @@ function scene:create( event )
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 
-
+    local logol =display.newImageRect("img/logo.png", 360, 63)
+    logol.x = display.contentCenterX-460
+    logol.y = display.contentCenterY+200
 
     -- Function to handle button events
     local function handleButtonEvent( event )
@@ -57,6 +59,7 @@ function scene:create( event )
     sceneGroup:insert( background )
     sceneGroup:insert( title )
     sceneGroup:insert( playButton )
+    sceneGroup:insert( logol )
 end
 
 function scene:show( event )
@@ -80,6 +83,10 @@ function scene:destroy( event )
     if playButton then
 		playButton:removeSelf()	-- widgets must be manually removed
 		playButton = nil
+    end
+    if logol then
+		logol:removeSelf()	-- widgets must be manually removed
+		logol = nil
     end
 end
 

@@ -28,7 +28,8 @@ function scene:create( event )
         
     end
         local gameover = display.newText( "GAME OVER", display.contentCenterX-250, 130, native.systemFontBold, 85)
-    
+        local uniud = display.newText( "Laboratorio di Game Programming, STM", display.contentCenterX+300, 340, native.systemFontBold, 24)
+    uniud:setFillColor( 0, 0.549, 0.713, 1 )
     gameover:setFillColor( 1, 1, 1 )
     
             local hText = display.newText( "High Score", display.contentCenterX-250, 390, native.systemFontBold, 65)
@@ -61,6 +62,7 @@ function scene:create( event )
     sceneGroup:insert( gameover )
     sceneGroup:insert( playAgainButton )
     sceneGroup:insert(hText)
+    sceneGroup:insert(uniud)
 end
 
 function scene:show( event )
@@ -170,6 +172,10 @@ function scene:destroy( event )
     if hText then
 		hText:removeSelf()	-- widgets must be manually removed
 		hText = nil
+    end
+        if uniud then
+		uniud:removeSelf()	-- widgets must be manually removed
+		uniud = nil
     end
 end
 
