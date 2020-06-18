@@ -1,3 +1,6 @@
+--inserimento libreria composer
+local composer = require "composer"
+
 --caricamento file audio
 soundTable = {
     background = audio.loadStream("sound/background.mp3"),
@@ -6,9 +9,6 @@ soundTable = {
     run = audio.loadStream("sound/run.mp3"),
     water = audio.loadSound("sound/water.mp3")
 }
-
---inserimento libreria composer
-local composer = require "composer"
 
 -- rimuovo la bar di Android 
 display.setStatusBar(display.HiddenStatusBar)
