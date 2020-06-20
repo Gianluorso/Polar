@@ -1,21 +1,25 @@
+--caricamento librerie della scena
 local composer = require( "composer" )
 local widget = require( "widget" )
 local loadsave = require( "loadsave" )
 local scene = composer.newScene()
 
--- forward declaration for widgets
+--dichiarazione variabili
 local background
 local playAgainButton
 local shownHighScoreText
 local newHighScore
 
+--elementi visualizzati nella scena
 function scene:create( event )
-	local sceneGroup = self.view
+    local sceneGroup = self.view
+    
+    --inserimento immagine background
     local background=display.newImageRect("img/background3.png", display.contentWidth*1.3, display.contentHeight*1.3)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
 
-    -- Function to handle button events
+    --funzione per la riproduzione del suono del bottone
     local function handleButtonEvent( event )
         local function delayTime(event)
             composer.gotoScene( "scene.game" )
@@ -27,22 +31,22 @@ function scene:create( event )
         end
         
     end
+
+        --scritta game over, stm e high score
         local gameover = display.newText( "GAME OVER", display.contentCenterX-250, 130, native.systemFontBold, 85)
         local uniud = display.newText( "Laboratorio di Game Programming, STM", display.contentCenterX+300, 340, native.systemFontBold, 24)
-    uniud:setFillColor( 0, 0.549, 0.713, 1 )
-    gameover:setFillColor( 1, 1, 1 )
-    
-            local hText = display.newText( "High Score", display.contentCenterX-250, 390, native.systemFontBold, 65)
-    
-    hText:setFillColor( 0, 0.549, 0.713, 1 )
+        uniud:setFillColor( 0, 0.549, 0.713, 1 )
+        gameover:setFillColor( 1, 1, 1 )
+        local hText = display.newText( "High Score", display.contentCenterX-250, 390, native.systemFontBold, 65)
+        hText:setFillColor( 0, 0.549, 0.713, 1 )
   
+    --bottone per rigiocare
     local playAgainButton = widget.newButton(
         {
-            label = "Rigioca",
+            label = "Restart",
             fontSize =30,
             onEvent = handleButtonEvent,
             emboss = false,
-            -- Properties for a rounded rectangle button
             shape = "roundedRect",
             width = 300,
             height = 100,
@@ -50,14 +54,13 @@ function scene:create( event )
             fillColor = { default={0, 0.549, 0.713, 1}, over={0, 0.694, 0.713, 1} },
             strokeColor = { default={1,1,1}, over={1,1,1} },
             strokeWidth = 0,
-            labelColor = { default={ 1, 1, 1 }, over={ 1, 1, 1, 1 } },
-
-            
+            labelColor = { default={ 1, 1, 1 }, over={ 1, 1, 1, 1 } },   
         }
     )
     playAgainButton.x = display.contentCenterX + 300
     playAgainButton.y = display.contentCenterY+125
     
+    --ordine degli elementi attraverso sceneGroup
     sceneGroup:insert( background )
     sceneGroup:insert( gameover )
     sceneGroup:insert( playAgainButton )
@@ -69,12 +72,11 @@ function scene:show( event )
     local phase = event.phase
  
     if ( phase == "will" ) then
-        -- Code here runs when the scene is still off screen (but is about to come on screen)
-        
-        --check old highscore
+        --codice avviato prima di essere mostrato a schermo  
+        --controllo vecchio highscore all'interno di scoreText.text e se è stato superato con il nuovo risultato ottenuto
         local loadedSettings = loadsave.loadTable( "settings.json" )
         local loadedHighScore = 0
-        if(loadedSettings == nil) then --first game
+        if(loadedSettings == nil) then --primo avvio
             local gameSettings = {
                 loadedHighScore = tonumber(scoreText.text)
             }        
@@ -90,7 +92,7 @@ function scene:show( event )
             loadsave.saveTable( gameSettings, "settings.json" )
         end
 
------------show highscore
+        --mostro l'high score
         local function punteggio()
             local highScoreText
             local isNew = false
@@ -111,7 +113,8 @@ function scene:show( event )
         local sceneGroup = self.view
         shownHighScoreText, isNew = punteggio()
         sceneGroup:insert( shownHighScoreText )
-
+        
+        --scritta new nel caso il punteggio sia stato superato
         if(isNew)then
             newHighScore = display.newText( "New", display.contentCenterX-250, 340, native.systemFontBold, 32)
             newHighScore:setFillColor( 0, 0.549, 0.713, 1 )
@@ -122,24 +125,25 @@ function scene:show( event )
 
 
     elseif ( phase == "did" ) then
-        -- Code here runs when the scene is entirely on screen
+        --codice avviato successivamente alla schermata
     end
 end
 
---reset high score
--- local loadsave = require( "loadsave" )
--- local gameSettings = {
---     highScore = 0
---  }        
--- loadsave.saveTable( gameSettings, "settings.json" )
+--inserire questo codice permette di riportare l'high score a zero
+--[[reset high score
+    local loadsave = require( "loadsave" )
+    local gameSettings = {
+        highScore = 0
+    }        
+    loadsave.saveTable( gameSettings, "settings.json" )]]--
 
 function scene:hide( event )
     if shownHighScoreText then
-		shownHighScoreText:removeSelf()	-- widgets must be manually removed
+		shownHighScoreText:removeSelf()
 		shownHighScoreText = nil
     end
     if newHighScore then
-		newHighScore:removeSelf()	-- widgets must be manually removed
+		newHighScore:removeSelf()
 		newHighScore = nil
     end
 end
@@ -147,39 +151,41 @@ end
 function scene:destroy( event )
     local sceneGroup = self.view
     if background then
-		background:removeSelf()	-- widgets must be manually removed
+		background:removeSelf()
 		background = nil
 	end
     if gameover then
-		gameover:removeSelf()	-- widgets must be manually removed
+		gameover:removeSelf()
 		gameover = nil
     end
+
     if playButton then
-		playButton:removeSelf()	-- widgets must be manually removed
+		playButton:removeSelf()
 		playButton = nil
     end
 
     if punteggio then
-		punteggio:removeSelf()	-- widgets must be manually removed
+		punteggio:removeSelf()
 		punteggio = nil
     end
     
     if value then
-		value:removeSelf()	-- widgets must be manually removed
+		value:removeSelf()
 		value = nil
     end
 
     if hText then
-		hText:removeSelf()	-- widgets must be manually removed
+		hText:removeSelf()
 		hText = nil
     end
-        if uniud then
-		uniud:removeSelf()	-- widgets must be manually removed
+
+    if uniud then
+		uniud:removeSelf()
 		uniud = nil
     end
 end
 
--- Scene listener setup
+--ascolto eventi nelle varie funzioni
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
