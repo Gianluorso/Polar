@@ -485,7 +485,7 @@ function scene:create(event)
                     isSensor = true
                     }
     )
-   --reset della musica di background
+    --[[
     local function handleButtonEvent(event)
 
         if ("ended" == event.phase) then
@@ -497,7 +497,7 @@ function scene:create(event)
         end
     end
 
-    --[[local reset = widget.newButton({
+    local reset = widget.newButton({
         label = "Reset",
         onEvent = handleButtonEvent,
         emboss = false,
@@ -515,7 +515,7 @@ function scene:create(event)
     reset.x = 800
     reset.y = 100
 
-    sceneGroup:insert(reset)]] --
+    sceneGroup:insert(reset)]]--
 
 end
 
