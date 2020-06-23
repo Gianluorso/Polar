@@ -11,20 +11,20 @@ function M.saveTable( t, filename, location )
         loc = defaultLocation
     end
  
-    -- Path for the file to write
+    -- percorso per salvare il file
     local path = system.pathForFile( filename, loc )
  
-    -- Open the file handle
+    -- apertura file
     local file, errorString = io.open( path, "w" )
  
     if not file then
-        -- Error occurred; output the cause
+        -- printare l'errore/ causa
         print( "File error: " .. errorString )
         return false
     else
-        -- Write encoded JSON data to file
+        -- codificare il file JSON 
         file:write( json.encode( t ) )
-        -- Close the file handle
+        -- chiusura file
         io.close( file )
         return true
     end
@@ -37,23 +37,23 @@ function M.loadTable( filename, location )
         loc = defaultLocation
     end
  
-    -- Path for the file to read
+    -- percorso per la lettura del file
     local path = system.pathForFile( filename, loc )
  
-    -- Open the file handle
+    -- apertura file
     local file, errorString = io.open( path, "r" )
  
     if not file then
-        -- Error occurred; output the cause
+        -- printare l'errore/ causa
         print( "File error: " .. errorString )
     else
         -- Read data from file
         local contents = file:read( "*a" )
-        -- Decode JSON data into Lua table
+        -- decodifica JSON in formato lua
         local t = json.decode( contents )
-        -- Close the file handle
+        -- chiusura file
         io.close( file )
-        -- Return table
+        -- ritorno
         return t
     end
 end
